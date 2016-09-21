@@ -28,6 +28,43 @@ namespace L5K_Compiler
         //    to be changed for future modules. So the corrected version will look like this:
         //    "	MODULE _xxxx_01M02 (Description := ""~"",. This is the character that will be find-and-replaced with the
         //    values from the excel document.
+        string[] header = @"(*********************************************
+
+  Import-Export
+  Version   := RSLogix 5000 v27.00
+  Owner     := Gyptech, Gyptech
+  Exported  := Wed Sep 21 09:26:10 2016
+
+  Note:  File encoded in UTF-8.  Only edit file in a program 
+         which supports UTF-8 (like Notepad, not Wordpad).
+
+**********************************************)
+IE_VER := 2.18;
+
+CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
+                         Major := 27,
+                         TimeSlice := 20,
+                         ShareUnusedTimeSlice := 1,
+                         MajorFaultProgram := ""FaultHandler"",
+                         RedundancyEnabled := 0,
+                         KeepTestEditsOnSwitchOver := 0,
+                         DataTablePadPercentage := 50,
+                         SecurityCode := 0,
+                         ChangesToDetect := 16#ffff_ffff_ffff_ffff,
+                         SFCExecutionControl := ""CurrentActive"",
+                         SFCRestartPosition := ""MostRecent"",
+                         SFCLastScan := ""DontScan"",
+                         SerialNumber := 16#0000_0000,
+                         MatchProjectToController := No,
+                         CanUseRPIFromProducer := No,
+                         SafetyLocked := No,
+                         SignatureRunModeProtect := No,
+                         SafetyTagMap := "" SafeTagsExternal=SafeTagsInternal, SF_HMI_B=SF_HMI_BS"",
+                         ConfigureSafetyIOAlways := No,
+                         InhibitAutomaticFirmwareUpdate := 0,
+                         PassThroughConfiguration := EnabledWithAppend,
+                         DownloadProjectDocumentationAndExtendedProperties := Yes,
+                         ReportMinorOverflow := 0)".Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
         string[] m1756L71S = @"	MODULE Local (Parent := ""Local"",
 	              ParentModPortId := 1,
 	              CatalogNumber := ""1756-L71S"",
