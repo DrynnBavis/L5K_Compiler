@@ -14,6 +14,20 @@ namespace L5K_Compiler
     public partial class Form1 : Form
     {
         string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";
+        string excelPath;
+        // Steps to add a new module to the list:
+        // 1. create a string array titled as the module's catalog number (exempt any chars other than letters) with a
+        //    preceding m.
+        // 2. Set it equal to @"" and with your cursor between the two quotes paste the MODULE info from the reference
+        //    l5k file. DON'T forget to include the tab before the first 'MODULE'!
+        // 3. Go through the new paste and add a second quote beside each existing quote in the pasted content. For
+        //    example "Local" will become ""Local"".
+        // 4. At the end of the paste add: .Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+        // 5. Lastly go through and replace all areas with needed changes with a '~' symbol. For example the description
+        //    "	MODULE _xxxx_01M02 (Description := ""VFD Speed Control"", has a copied over description that will need
+        //    to be changed for future modules. So the corrected version will look like this:
+        //    "	MODULE _xxxx_01M02 (Description := ""~"",. This is the character that will be find-and-replaced with the
+        //    values from the excel document.
         string[] m1756L71S = @"	MODULE Local (Parent := ""Local"",
 	              ParentModPortId := 1,
 	              CatalogNumber := ""1756-L71S"",
@@ -30,7 +44,8 @@ namespace L5K_Compiler
 	              KeyMask := 2#0000_0000_0001_1111,
 	              SafetyNetwork := 16#0000_3acc_033e_6fa0)
 	END_MODULE".Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-        string [] m1756EN2T = @"	MODULE Drives (Description := ""DPxxxx & DPxxxx & DPxxxx"",
+
+        string [] m1756EN2T = @"	MODULE Drives (Description := ""~"",
 	               Parent := ""Local"",
 	               ParentModPortId := 1,
 	               CatalogNumber := ""1756-EN2T"",
@@ -139,7 +154,7 @@ namespace L5K_Compiler
         {
             FolderBrowserDialog folderBrowser = new FolderBrowserDialog();
             folderBrowser.Reset();
-            folderBrowser.Description = "Please select a folder containing test data for analysis.";
+            folderBrowser.Description = "Please select a path for the L5K file to be saved";
             folderBrowser.ShowNewFolderButton = false;
             folderBrowser.RootFolder = Environment.SpecialFolder.MyComputer;
             folderBrowser.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\";
@@ -154,7 +169,23 @@ namespace L5K_Compiler
         {
             string fileName = Microsoft.VisualBasic.Interaction.InputBox("Please enter a name for the L5K file:", 
                 "Enter File Name", "NewFile");
+            m1756EN2T[0] = m1756EN2T[0].Replace("~", "INSERT NAME OF DRIVE HERE");
             File.WriteAllLines(outputPath + fileName + ".l5k", m1756EN2T);
+        }
+
+        private void extractExcelData()
+        {
+            OpenFileDialog folderBrowser = new OpenFileDialog();
+            folderBrowser.Reset();
+            folderBrowser.Filter = "Excel Files (.xlsx)|*.xlsx";
+            folderBrowser.FilterIndex = 1;
+            folderBrowser.Multiselect = false;
+            bool? userClickedOK = folderBrowser.ShowDialog() == DialogResult.OK;
+            if (userClickedOK == true)
+            {
+                MessageBox.Show("it worked");
+                return;
+            }
         }
 
         private void changePathBtn_Click(object sender, EventArgs e)
@@ -165,8 +196,11 @@ namespace L5K_Compiler
         private void compileBtn_Click(object sender, EventArgs e)
         {
             CompileL5K();
-            //adding a dif comment
-            //Now this is my first change!
+        }
+
+        private void importExcelBtn_Click(object sender, EventArgs e)
+        {
+            extractExcelData();
         }
     }
 }

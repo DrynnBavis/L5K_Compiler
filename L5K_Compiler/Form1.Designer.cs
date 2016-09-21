@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.importExcelBtn = new System.Windows.Forms.Button();
             this.changePathBtn = new System.Windows.Forms.Button();
             this.compileBtn = new System.Windows.Forms.Button();
@@ -41,6 +42,7 @@
             this.importExcelBtn.TabIndex = 0;
             this.importExcelBtn.Text = "Import Excel";
             this.importExcelBtn.UseVisualStyleBackColor = true;
+            this.importExcelBtn.Click += new System.EventHandler(this.importExcelBtn_Click);
             // 
             // changePathBtn
             // 
@@ -70,8 +72,9 @@
             this.Controls.Add(this.compileBtn);
             this.Controls.Add(this.changePathBtn);
             this.Controls.Add(this.importExcelBtn);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Gyptech L5K Compiler";
             this.ResumeLayout(false);
 
         }
