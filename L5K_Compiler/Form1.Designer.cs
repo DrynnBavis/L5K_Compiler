@@ -72,7 +72,7 @@
             this.Controls.Add(this.compileBtn);
             this.Controls.Add(this.changePathBtn);
             this.Controls.Add(this.importExcelBtn);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::L5K_Compiler.Properties.Resources.icon;
             this.Name = "Form1";
             this.Text = "Gyptech L5K Compiler";
             this.ResumeLayout(false);
