@@ -31,7 +31,6 @@
             this.importExcelBtn = new System.Windows.Forms.Button();
             this.changePathBtn = new System.Windows.Forms.Button();
             this.compileBtn = new System.Windows.Forms.Button();
-            this.progBar = new System.Windows.Forms.ProgressBar();
             this.ieVerBox = new System.Windows.Forms.TextBox();
             this.ieVerLbl = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -71,18 +70,10 @@
             this.compileBtn.UseVisualStyleBackColor = true;
             this.compileBtn.Click += new System.EventHandler(this.compileBtn_Click);
             // 
-            // progBar
-            // 
-            this.progBar.Enabled = false;
-            this.progBar.Location = new System.Drawing.Point(13, 106);
-            this.progBar.Name = "progBar";
-            this.progBar.Size = new System.Drawing.Size(408, 23);
-            this.progBar.TabIndex = 3;
-            this.progBar.Visible = false;
-            // 
             // ieVerBox
             // 
             this.ieVerBox.Location = new System.Drawing.Point(321, 12);
+            this.ieVerBox.MaxLength = 4;
             this.ieVerBox.Name = "ieVerBox";
             this.ieVerBox.Size = new System.Drawing.Size(100, 20);
             this.ieVerBox.TabIndex = 4;
@@ -108,6 +99,7 @@
             // 
             // procTypeDrop
             // 
+            this.procTypeDrop.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.procTypeDrop.FormattingEnabled = true;
             this.procTypeDrop.Location = new System.Drawing.Point(300, 52);
             this.procTypeDrop.Name = "procTypeDrop";
@@ -123,7 +115,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ieVerLbl);
             this.Controls.Add(this.ieVerBox);
-            this.Controls.Add(this.progBar);
             this.Controls.Add(this.compileBtn);
             this.Controls.Add(this.changePathBtn);
             this.Controls.Add(this.importExcelBtn);
@@ -141,7 +132,6 @@
         private System.Windows.Forms.Button importExcelBtn;
         private System.Windows.Forms.Button changePathBtn;
         private System.Windows.Forms.Button compileBtn;
-        private System.Windows.Forms.ProgressBar progBar;
         private System.Windows.Forms.TextBox ieVerBox;
         private System.Windows.Forms.Label ieVerLbl;
         private System.Windows.Forms.Label label1;

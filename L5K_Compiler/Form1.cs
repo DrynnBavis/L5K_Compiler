@@ -59,116 +59,111 @@ namespace L5K_Compiler
 
         private void CompileL5K()
         {
+            int modSlotCount = 0;
+            int aentrCount = 0;
+            int etrCount = 0;
             if (!moduleList.Any())
             {
                 MessageBox.Show("Error no data had been loaded yet! Please import a properly formatted excel document and try again!", "Error Empty Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            int x = 0;
+            if (string.IsNullOrWhiteSpace(ieVerBox.Text) || string.IsNullOrWhiteSpace(procTypeDrop.Text))
+            {
+                MessageBox.Show("Please ensure all boxes are filled properly\n and that the IE version is valid.");
+                return;
+            }
+            string fileName = Microsoft.VisualBasic.Interaction.InputBox("Please enter a name for the L5K file:",
+                "Enter File Name", "NewFile");
+            string finalOutput = L5K_Compiler.Properties.Resources.header.Replace("@IEVER@", ieVerBox.Text.ToString());
+            finalOutput.Replace("@PROCTYPE@", procTypeDrop.Text.ToString());
+            SplashScreen.ShowSplashScreen();
+            SplashScreen.SetStatus("Compiling your file. Please wait...");
+            int numCards = moduleList.Count;
             while (moduleList.Any())
             {
-                if (moduleList[x].name == "1734-AENTR")
+                SplashScreen.SetProgress((int)((numCards - moduleList.Count) * 100.00 / numCards));
+                if (moduleList[0].name.Contains("1756"))
                 {
-                    while (moduleList[x].name != "1734-AENTR")
+                    etrCount++;
+                    string newCard = L5K_Compiler.Properties.Resources.m1756EN2T.Replace("@SLOT@", etrCount.ToString());
+                    finalOutput = finalOutput + newCard;
+                    moduleList.RemoveAt(0);
+                    modSlotCount = 0;
+                }
+                else if (moduleList[0].name.Contains("AENTR"))
+                {
+                    aentrCount++;
+                    modSlotCount = 0;
+                    string newCard = L5K_Compiler.Properties.Resources.m1734AENTR.Replace("@SLOT@", modSlotCount.ToString());
+                    newCard = newCard.Replace("@SIZE@", numMods[aentrCount].ToString());
+                    newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                    newCard = newCard.Replace("@ETHERNUM@", etrCount.ToString());
+                    finalOutput = finalOutput + newCard;
+                    moduleList.RemoveAt(0);
+                    modSlotCount++;
+                }
+                while (moduleList.Any() && !moduleList[0].name.Contains("AENTR") && !moduleList[0].name.Contains("1756"))
+                {
+                    if (moduleList[0].name == "1734-IB8S")
                     {
-                        x++;
+                        string newCard = L5K_Compiler.Properties.Resources.m1734IB8S.Replace("@SLOT@", modSlotCount.ToString());
+                        newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                        finalOutput = finalOutput + newCard;
+                        moduleList.RemoveAt(0);
+                        modSlotCount++;
                     }
-                    //send the count of io cards (AKA x) to chasis when you figure that out
-                    for (int z = 0; z < x; z++)
+                    else if (moduleList[0].name == "1734-OB8S")
                     {
-                        string[] textToOutput = @"(*********************************************
-
-  Import-Export
-  Version   := RSLogix 5000 v27.00
-  Owner     := Gyptech, Gyptech
-  Exported  := Fri Sep 23 16:47:53 2016
-
-  Note:  File encoded in UTF-8.  Only edit file in a program 
-         which supports UTF-8 (like Notepad, not Wordpad).
-
-**********************************************)
-IE_VER := 2.18;
-
-CONTROLLER modTest (ProcessorType := ""1756 - L71S"",
-                    Major:= 27,
-                    TimeSlice:= 20,
-                    ShareUnusedTimeSlice:= 1,
-                    RedundancyEnabled:= 0,
-                    KeepTestEditsOnSwitchOver:= 0,
-                    DataTablePadPercentage:= 50,
-                    SecurityCode:= 0,
-                    ChangesToDetect:= 16#ffff_ffff_ffff_ffff,
-                    SFCExecutionControl:= ""CurrentActive"",
-                    SFCRestartPosition:= ""MostRecent"",
-                    SFCLastScan:= ""DontScan"",
-                    SerialNumber:= 16#0000_0000,
-                    MatchProjectToController:= No,
-                    CanUseRPIFromProducer:= No,
-                    SafetyLocked:= No,
-                    SignatureRunModeProtect:= No,
-                    ConfigureSafetyIOAlways:= No,
-                    InhibitAutomaticFirmwareUpdate:= 0,
-                    PassThroughConfiguration:= EnabledWithAppend,
-                    DownloadProjectDocumentationAndExtendedProperties:= Yes,
-                    ReportMinorOverflow:= 0)
-	MODULE Local (Parent := ""Local"",
-	              ParentModPortId:= 1,
-	              CatalogNumber:= ""1756-L71S"",
-	              Vendor:= 1,
-	              ProductType:= 14,
-	              ProductCode:= 158,
-	              Major:= 27,
-	              Minor:= 11,
-	              PortLabel:= ""RxBACKPLANE"",
-	              ChassisSize:= 10,
-	              Slot:= 0,
-	              Mode:= 2#0000_0000_0000_0001,
-	              CompatibleModule:= 0,
-	              KeyMask:= 2#0000_0000_0001_1111,
-	              SafetyNetwork:= 16#0000_3fd1_0454_fec4)
-	END_MODULE
-
-    MODULE modTest: Partner(Parent:= ""Local"",
-                             ParentModPortId:= 1,
-                             CatalogNumber:= ""1756-L7SP"",
-                             Vendor:= 1,
-                             ProductType:= 14,
-                             ProductCode:= 146,
-                             Major:= 27,
-                             Minor:= 11,
-                             PortLabel:= ""RxBACKPLANE"",
-                             Slot:= 1,
-                             Mode:= 2#0000_0000_0000_0000,
-	                        CompatibleModule:= 0,
-                             KeyMask:= 2#0000_0000_0001_1111,
-	                        SafetyNetwork:= 16#0000_0000_0000_0000)
-	END_MODULE
- 
-
-     MODULE name(Parent:= ""Local"",
-                  ParentModPortId:= 1,
-                  CatalogNumber:= ""1756-EN2TR"",
-                  Vendor:= 1,
-                  ProductType:= 12,
-                  ProductCode:= 200,
-                  Major:= 10,
-                  Minor:= 1,
-                  PortLabel:= ""RxBACKPLANE"",
-                  Slot:= 2,
-                  Mode:= 2#0000_0000_0000_0000,
-	             CompatibleModule:= 1,
-                  KeyMask:= 2#0000_0000_0001_1111)
-			ExtendedProp:= [[[___ <public><ConfigID>4325481</ConfigID></public>___]]]
-	END_MODULE".Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                        string newCard = L5K_Compiler.Properties.Resources.m1734OB8S.Replace("@SLOT@", modSlotCount.ToString());
+                        newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                        finalOutput = finalOutput + newCard;
+                        moduleList.RemoveAt(0);
+                        modSlotCount++;
+                    }
+                    else if (moduleList[0].name == "1734-IB4D")
+                    {
+                        string newCard = L5K_Compiler.Properties.Resources.m1734IB4D.Replace("@SLOT@", modSlotCount.ToString());
+                        newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                        finalOutput = finalOutput + newCard;
+                        moduleList.RemoveAt(0);
+                        modSlotCount++;
+                    }
+                    else if (moduleList[0].name == "1734-OB4E")
+                    {
+                        string newCard = L5K_Compiler.Properties.Resources.m1734OB4E.Replace("@SLOT@", modSlotCount.ToString());
+                        newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                        finalOutput = finalOutput + newCard;
+                        moduleList.RemoveAt(0);
+                        modSlotCount++;
+                    }
+                    else if (moduleList[0].name == "1734-IE2C")
+                    {
+                        string newCard = L5K_Compiler.Properties.Resources.m1734IE2C.Replace("@SLOT@", modSlotCount.ToString());
+                        newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                        finalOutput = finalOutput + newCard;
+                        moduleList.RemoveAt(0);
+                        modSlotCount++;
+                    }
+                    else if (moduleList[0].name == "1734-OE2C")
+                    {
+                        string newCard = L5K_Compiler.Properties.Resources.m1734OE2C.Replace("@SLOT@", modSlotCount.ToString());
+                        newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                        finalOutput = finalOutput + newCard;
+                        moduleList.RemoveAt(0);
+                        modSlotCount++;
+                    }
+                    else if (moduleList[0].name == "1734-IR2")
+                    {
+                        string newCard = L5K_Compiler.Properties.Resources.m1734IR2.Replace("@SLOT@", modSlotCount.ToString());
+                        newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
+                        finalOutput = finalOutput + newCard;
+                        moduleList.RemoveAt(0);
+                        modSlotCount++;
                     }
                 }
-                moduleList.RemoveAt(0);
             }
-            /*
-            string fileName = Microsoft.VisualBasic.Interaction.InputBox("Please enter a name for the L5K file:", 
-                "Enter File Name", "NewFile");
-            m1756EN2T[0] = m1756EN2T[0].Replace("~", "INSERT NAME OF DRIVE HERE");
-            File.WriteAllLines(outputPath + fileName + ".l5k", m1756EN2T);
-            */
+            File.WriteAllText(outputPath + fileName + ".l5k", finalOutput);
+            SplashScreen.CloseForm();
         }
 
         private void extractExcelData()
@@ -181,9 +176,6 @@ CONTROLLER modTest (ProcessorType := ""1756 - L71S"",
             bool? userClickedOK = folderBrowser.ShowDialog() == DialogResult.OK;
             if (userClickedOK == true)
             {
-                progBar.Enabled = true;
-                progBar.Visible = true;
-                this.progBar.Maximum = 100;
                 Cursor.Current = Cursors.WaitCursor;
                 changePathBtn.Enabled = false;
                 compileBtn.Enabled = false;
@@ -196,6 +188,8 @@ CONTROLLER modTest (ProcessorType := ""1756 - L71S"",
                     return;
                 }
                 app.DisplayAlerts = false;
+                SplashScreen.ShowSplashScreen();
+                SplashScreen.SetStatus("Loading Excel Data. Please wait...");
                 Excel.Workbook wb = app.Workbooks.Open(excelPath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 Excel.Worksheet ws = (Excel.Worksheet)wb.Sheets[1];
                 int numRows = ws.UsedRange.Rows.Count;
@@ -203,9 +197,9 @@ CONTROLLER modTest (ProcessorType := ""1756 - L71S"",
                 int countAENTR = 0;
                 while (i <= numRows)
                 {
-                    while (((string)(ws.Cells[i, 2] as Excel.Range).Value == null || (string)(ws.Cells[i, 2] as Excel.Range).Value != "1734-AENTR") && i <= numRows)//starts looking through values under the AENTR
+                    while (((string)(ws.Cells[i, 2] as Excel.Range).Value == null || ((string)(ws.Cells[i, 2] as Excel.Range).Value != "1734-AENTR" && (string)(ws.Cells[i, 2] as Excel.Range).Value != "1756-EN2T")) && i <= numRows)//starts looking through values under the AENTR
                     {
-                        this.progBar.Value = (int)(i * 100.00 / numRows);
+                        SplashScreen.SetProgress((int)(i * 100.00 / numRows));
                         if ((string)(ws.Cells[i, 2] as Excel.Range).Value == null)
                         {
                             i++;
@@ -268,21 +262,26 @@ CONTROLLER modTest (ProcessorType := ""1756 - L71S"",
                             moduleList.Add(new Module { name = "1734-IR2", modDesc = "2-CH RTD Input Module", address = xAdress, chdesc = xDesc, tag = xTag });
                             numMods[countAENTR]++;
                         }
-                        //numMods[countAENTR]++;
                         i++;
                     }
-                    moduleList.Add(new Module { name = "1734-AENTR", modDesc = "Expansion"});
-                    countAENTR++;
-                    i++;
+                    if ((string)(ws.Cells[i, 2] as Excel.Range).Value == "1756-EN2T")
+                    {
+                        moduleList.Add(new Module { name = "1756-EN2T", modDesc = "Expansion" });
+                        i++;
+                    }
+                    else
+                    {
+                        moduleList.Add(new Module { name = "1734-AENTR", modDesc = "Expansion"});
+                        countAENTR++;
+                        i++;
+                    }
                 }
                 wb.Close();
                 app.Quit();
-                this.Cursor = Cursors.Default;
+                SplashScreen.CloseForm();
                 changePathBtn.Enabled = true;
                 compileBtn.Enabled = true;
                 importExcelBtn.Enabled = true;
-                progBar.Enabled = false;
-                progBar.Visible = false;
                 string cat = L5K_Compiler.Properties.Resources.header;
             }
         }

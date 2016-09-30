@@ -123,15 +123,15 @@
   Import-Export
   Version   := RSLogix 5000 v27.00
   Owner     := Gyptech, Gyptech
-  Exported  := Wed Sep 21 09:26:10 2016
+  Exported  := Sat Jan 1 00:00:00 2000
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
 
 **********************************************)
-IE_VER := 2.18;
+IE_VER := @IEVER@;
 
-CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
+CONTROLLER PRCJ_Generic (ProcessorType := ""@PROCTYPE@"",
                          Major := 27,
                          TimeSlice := 20,
                          ShareUnusedTimeSlice := 1,
@@ -161,7 +161,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
     <value>..\Resources\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="m1734AENTR" xml:space="preserve">
-    <value>@"	MODULE Pxxxx (Parent := ""IO"",
+    <value>@"	MODULE 1734_AENTR_@AENTRNUM@ (Parent := ""ETHERNET_@ETHERNUM@"",
 	              ParentModPortId := 2,
 	              CatalogNumber := ""1734-AENTR/A"",
 	              Vendor := 1,
@@ -170,9 +170,9 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	              Major := 3,
 	              Minor := 1,
 	              PortLabel := ""ENet"",
-	              ChassisSize := 7,
-	              Slot := 0,
-	              NodeAddress := ""192.168.1.10"",
+	              ChassisSize := @SIZE@,
+	              Slot := @SLOT@,
+	              NodeAddress := ""192.168.0.1"",
 	              CommMethod := 805306369,
 	              Mode := 2#0000_0000_0000_0000,
 	              CompatibleModule := 0,
@@ -190,8 +190,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
     END_MODULE"</value>
   </data>
   <data name="m1734IB4D" xml:space="preserve">
-    <value>@"MODULE $NoName (Parent := ""Pxxxx"",
-	            ParentModPortId := 1,
+    <value>@"	MODULE $NoName (Parent := ""1734_AENTR_@AENTRNUM@"",
 	            CatalogNumber := ""1734-IB4D/C"",
 	            Vendor := 1,
 	            ProductType := 7,
@@ -199,7 +198,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	            Major := 3,
 	            Minor := 1,
 	            PortLabel := ""RxBACKPLANE"",
-	            Slot := 3,
+	            Slot := @SLOT@,
 	            Mode := 2#0000_0000_0000_0000,
 	            CompatibleModule := 0,
 	            KeyMask := 2#0000_0000_0000_0000)
@@ -211,7 +210,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
         END_MODULE"</value>
   </data>
   <data name="m1734IB8S" xml:space="preserve">
-    <value>@"	MODULE $NoName (Parent := ""Pxxxx"",
+    <value>@"	MODULE $NoName (Parent := ""1734_AENTR_@AENTRNUM@"",
 	            ParentModPortId := 1,
 	            CatalogNumber := ""1734-IB8S/A"",
 	            Vendor := 1,
@@ -220,7 +219,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	            Major := 1,
 	            Minor := 1,
 	            PortLabel := ""RxBACKPLANE"",
-	            Slot := 1,
+	            Slot := @SLOT@,
 	            Mode := 2#0000_0000_0000_0000,
 	            CompatibleModule := 1,
 	            KeyMask := 2#0000_0000_0001_1111,
@@ -251,7 +250,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
     END_MODULE"</value>
   </data>
   <data name="m1734IE2C" xml:space="preserve">
-    <value>@"	MODULE $NoName (Parent := ""Pxxxx"",
+    <value>@"	MODULE $NoName (Parent := ""1734_AENTR_@AENTRNUM@"",
 	            ParentModPortId := 1,
 	            CatalogNumber := ""1734-IE2C/C"",
 	            Vendor := 1,
@@ -260,7 +259,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	            Major := 3,
 	            Minor := 1,
 	            PortLabel := ""RxBACKPLANE"",
-	            Slot := 5,
+	            Slot := @SLOT@,
 	            CommMethod := 536870913,
 	            ConfigMethod := 8388609,
 	            Mode := 2#0000_0000_0000_0000,
@@ -278,8 +277,36 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 
     END_MODULE"</value>
   </data>
+  <data name="m1734IR2" xml:space="preserve">
+    <value>@"	MODULE $NoName (Parent := ""1734_AENTR_@AENTRNUM@"",
+	                 ParentModPortId := 1,
+	                 CatalogNumber := ""1734-IR2/C"",
+	                 Vendor := 1,
+	                 ProductType := 115,
+	                 ProductCode := 50,
+	                 Major := 3,
+	                 Minor := 1,
+	                 PortLabel := ""RxBACKPLANE"",
+	                 Slot := @SLOT@,
+	                 CommMethod := 536870913,
+	                 ConfigMethod := 8388609,
+	                 Mode := 2#0000_0000_0000_0000,
+	                 CompatibleModule := 1,
+	                 KeyMask := 2#0000_0000_0001_1111)
+			ExtendedProp := [[[___&lt;public&gt;&lt;ConfigID&gt;200&lt;/ConfigID&gt;&lt;/public&gt;___]]]
+			ConfigData (Class := Standard) := [46,123,1,1000,5000,0,-32768,32767,-32768,32767,0,0,1,1,1000,5000,0,-32768,32767,-32768,32767,0,0,1,1,1,0];
+			CONNECTION InputData (Rate := 80000,
+			                      EventID := 0,
+			                      Unicast := Yes)
+					InputData (COMMENT.CH0FAULT := ""Main Exhaust Air Temperature Element (HR Inlet) Fault"",
+            COMMENT.CH1FAULT := ""Supply Air Temperature Element Fault"",
+            Class := Standard) := [0,0,0,0,0];
+			END_CONNECTION
+
+	END_MODULE"</value>
+  </data>
   <data name="m1734OB4E" xml:space="preserve">
-    <value>@"	MODULE $NoName (Parent := ""Pxxxx"",
+    <value>@"	MODULE $NoName (Parent := ""1734_AENTR_@AENTRNUM@"",
 	            ParentModPortId := 1,
 	            CatalogNumber := ""1734-OB4E/C"",
 	            Vendor := 1,
@@ -288,7 +315,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	            Major := 3,
 	            Minor := 1,
 	            PortLabel := ""RxBACKPLANE"",
-	            Slot := 4,
+	            Slot :=@SLOT@,
 	            CommMethod := 1073741824,
 	            ConfigMethod := 8388611,
 	            Mode := 2#0000_0000_0000_0000,
@@ -304,7 +331,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
         END_MODULE"</value>
   </data>
   <data name="m1734OB8S" xml:space="preserve">
-    <value>@"	MODULE $NoName (Parent := ""Pxxxx"",
+    <value>@"	MODULE $NoName (Parent := ""1734_AENTR_@AENTRNUM@"",
 	            ParentModPortId := 1,
 	            CatalogNumber := ""1734-OB8S/A"",
 	            Vendor := 1,
@@ -313,7 +340,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	            Major := 1,
 	            Minor := 1,
 	            PortLabel := ""RxBACKPLANE"",
-	            Slot := 2,
+	            Slot := @SLOT@,
 	            Mode := 2#0000_0000_0000_0000,
 	            CompatibleModule := 1,
 	            KeyMask := 2#0000_0000_0001_1111,
@@ -343,7 +370,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
     END_MODULE"</value>
   </data>
   <data name="m1734OE2C" xml:space="preserve">
-    <value>@"	MODULE $NoName (Parent := ""Pxxxx"",
+    <value>@"	MODULE $NoName (Parent := ""1734_AENTR_@AENTRNUM@"",
 	            ParentModPortId := 1,
 	            CatalogNumber := ""1734-OE2C/C"",
 	            Vendor := 1,
@@ -352,7 +379,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	            Major := 3,
 	            Minor := 1,
 	            PortLabel := ""RxBACKPLANE"",
-	            Slot := 6,
+	            Slot := @SLOT@,
 	            CommMethod := 536870913,
 	            ConfigMethod := 8388609,
 	            Mode := 2#0000_0000_0000_0000,
@@ -372,8 +399,26 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 
     END_MODULE"</value>
   </data>
+  <data name="m1752L72S" xml:space="preserve">
+    <value>@"	MODULE Local (Parent := ""Local"",
+	              ParentModPortId := 1,
+	              CatalogNumber := ""1756-L72S"",
+	              Vendor := 1,
+	              ProductType := 14,
+	              ProductCode := 147,
+	              Major := 27,
+	              Minor := 11,
+	              PortLabel := ""RxBACKPLANE"",
+	              ChassisSize := 13,
+	              Slot := @SLOT@,
+	              Mode := 2#0000_0000_0000_0001,
+	              CompatibleModule := 0,
+	              KeyMask := 2#0000_0000_0001_1111,
+	              SafetyNetwork := 16#0000_3f6e_029e_b367)
+	END_MODULE"</value>
+  </data>
   <data name="m1756EN2T" xml:space="preserve">
-    <value>@"	MODULE Drives (Description := ""~"",
+    <value>@"	MODULE ETHERNET_@ETHERNUM@ (Description := """",
 	               Parent := ""Local"",
 	               ParentModPortId := 1,
 	               CatalogNumber := ""1756-EN2T"",
@@ -383,7 +428,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	               Major := 10,
 	               Minor := 1,
 	               PortLabel := ""RxBACKPLANE"",
-	               Slot := 5,
+	               Slot := @SLOT@,
 	               NodeAddress := ""192.168.0.1"",
 	               Mode := 2#0000_0000_0000_0000,
 	               CompatibleModule := 1,
@@ -408,7 +453,7 @@ CONTROLLER PRCJ_Generic (ProcessorType := ""1756-L71S"",
 	              Minor := 11,
 	              PortLabel := ""RxBACKPLANE"",
 	              ChassisSize := 13,
-	              Slot := 11,
+	              Slot := @SLOT@,
 	              Mode := 2#0000_0000_0000_0001,
 	              CompatibleModule := 0,
 	              KeyMask := 2#0000_0000_0001_1111,
