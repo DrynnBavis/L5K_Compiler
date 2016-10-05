@@ -61,7 +61,7 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;(*********************************************
+        ///   Looks up a localized string similar to (*********************************************
         ///
         ///  Import-Export
         ///  Version   := RSLogix 5000 v27.00
@@ -72,11 +72,7 @@ namespace L5K_Compiler.Properties {
         ///         which supports UTF-8 (like Notepad, not Wordpad).
         ///
         ///**********************************************)
-        ///IE_VER := @IEVER@;
-        ///
-        ///CONTROLLER PRCJ_Generic (ProcessorType := &quot;&quot;@PROCTYPE@&quot;&quot;,
-        ///                         Major := 27,
-        ///                         TimeSlice :=  [rest of string was truncated]&quot;;.
+        ///IE_VER := @IEVER@;.
         /// </summary>
         internal static string header {
             get {
@@ -95,20 +91,20 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE 1734_AENTR_@AENTRNUM@ (Parent := &quot;&quot;ETHERNET_@ETHERNUM@&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE _1734_AENTR_@AENTRNUM@ (Parent := &quot;ETHERNET_@ETHERNUM@&quot;,
         ///	              ParentModPortId := 2,
-        ///	              CatalogNumber := &quot;&quot;1734-AENTR/A&quot;&quot;,
+        ///	              CatalogNumber := &quot;1734-AENTR/A&quot;,
         ///	              Vendor := 1,
         ///	              ProductType := 12,
         ///	              ProductCode := 196,
         ///	              Major := 3,
         ///	              Minor := 1,
-        ///	              PortLabel := &quot;&quot;ENet&quot;&quot;,
+        ///	              PortLabel := &quot;ENet&quot;,
         ///	              ChassisSize := @SIZE@,
         ///	              Slot := @SLOT@,
-        ///	              NodeAddress := &quot;&quot;192.168.0.1&quot;&quot;,
+        ///	              NodeAddress := &quot;192.168.0.1&quot;,
         ///	              CommMethod := 805306369,
-        /// [rest of string was truncated]&quot;;.
+        ///	        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734AENTR {
             get {
@@ -117,19 +113,19 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE $NoName (Parent := &quot;&quot;1734_AENTR_@AENTRNUM@&quot;&quot;,
-        ///	            CatalogNumber := &quot;&quot;1734-IB4D/C&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
+        ///	            CatalogNumber := &quot;1734-IB4D/C&quot;,
         ///	            Vendor := 1,
         ///	            ProductType := 7,
         ///	            ProductCode := 307,
         ///	            Major := 3,
         ///	            Minor := 1,
-        ///	            PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	            PortLabel := &quot;RxBACKPLANE&quot;,
         ///	            Slot := @SLOT@,
         ///	            Mode := 2#0000_0000_0000_0000,
         ///	            CompatibleModule := 0,
         ///	            KeyMask := 2#0000_0000_0000_0000)
-        ///			ExtendedProp := [[[___&lt;public&gt;&lt;ConfigID&gt;262145&lt;/ConfigI [rest of string was truncated]&quot;;.
+        ///			ExtendedProp := [[[___&lt;public&gt;&lt;ConfigID&gt;262145&lt;/ConfigID&gt;&lt;/pub [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734IB4D {
             get {
@@ -138,20 +134,20 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE $NoName (Parent := &quot;&quot;1734_AENTR_@AENTRNUM@&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
         ///	            ParentModPortId := 1,
-        ///	            CatalogNumber := &quot;&quot;1734-IB8S/A&quot;&quot;,
+        ///	            CatalogNumber := &quot;1734-IB8S/A&quot;,
         ///	            Vendor := 1,
         ///	            ProductType := 35,
         ///	            ProductCode := 15,
         ///	            Major := 1,
         ///	            Minor := 1,
-        ///	            PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	            PortLabel := &quot;RxBACKPLANE&quot;,
         ///	            Slot := @SLOT@,
         ///	            Mode := 2#0000_0000_0000_0000,
         ///	            CompatibleModule := 1,
         ///	            KeyMask := 2#0000_0000_0001_1111,
-        ///	            SafetyNet [rest of string was truncated]&quot;;.
+        ///	            SafetyNetwork := [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734IB8S {
             get {
@@ -160,20 +156,20 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE $NoName (Parent := &quot;&quot;1734_AENTR_@AENTRNUM@&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
         ///	            ParentModPortId := 1,
-        ///	            CatalogNumber := &quot;&quot;1734-IE2C/C&quot;&quot;,
+        ///	            CatalogNumber := &quot;1734-IE2C/C&quot;,
         ///	            Vendor := 1,
         ///	            ProductType := 115,
         ///	            ProductCode := 24,
         ///	            Major := 3,
         ///	            Minor := 1,
-        ///	            PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	            PortLabel := &quot;RxBACKPLANE&quot;,
         ///	            Slot := @SLOT@,
         ///	            CommMethod := 536870913,
         ///	            ConfigMethod := 8388609,
         ///	            Mode := 2#0000_0000_0000_0000,
-        ///	            CompatibleModul [rest of string was truncated]&quot;;.
+        ///	            CompatibleModule := 0, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734IE2C {
             get {
@@ -182,19 +178,19 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE $NoName (Parent := &quot;&quot;1734_AENTR_@AENTRNUM@&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
         ///	                 ParentModPortId := 1,
-        ///	                 CatalogNumber := &quot;&quot;1734-IR2/C&quot;&quot;,
+        ///	                 CatalogNumber := &quot;1734-IR2/C&quot;,
         ///	                 Vendor := 1,
         ///	                 ProductType := 115,
         ///	                 ProductCode := 50,
         ///	                 Major := 3,
         ///	                 Minor := 1,
-        ///	                 PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	                 PortLabel := &quot;RxBACKPLANE&quot;,
         ///	                 Slot := @SLOT@,
         ///	                 CommMethod := 536870913,
         ///	                 ConfigMethod := 8388609,
-        ///	                 M [rest of string was truncated]&quot;;.
+        ///	                 Mode :=  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734IR2 {
             get {
@@ -203,20 +199,21 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE $NoName (Parent := &quot;&quot;1734_AENTR_@AENTRNUM@&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
         ///	            ParentModPortId := 1,
-        ///	            CatalogNumber := &quot;&quot;1734-OB4E/C&quot;&quot;,
+        ///	            CatalogNumber := &quot;1734-OB4E/C&quot;,
         ///	            Vendor := 1,
         ///	            ProductType := 7,
         ///	            ProductCode := 134,
         ///	            Major := 3,
         ///	            Minor := 1,
-        ///	            PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	            PortLabel := &quot;RxBACKPLANE&quot;,
         ///	            Slot :=@SLOT@,
         ///	            CommMethod := 1073741824,
         ///	            ConfigMethod := 8388611,
         ///	            Mode := 2#0000_0000_0000_0000,
-        ///	            CompatibleModule [rest of string was truncated]&quot;;.
+        ///	            CompatibleModule := 0,
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734OB4E {
             get {
@@ -225,9 +222,9 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE $NoName (Parent := &quot;&quot;1734_AENTR_@AENTRNUM@&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
         ///	            ParentModPortId := 1,
-        ///	            CatalogNumber := &quot;&quot;1734-OB8S/A&quot;&quot;,
+        ///	            CatalogNumber := &quot;1734-OB8S/A&quot;,
         ///	            Vendor := 1,
         ///	            ProductType := 35,
         ///	            ProductCode := 16,
@@ -238,7 +235,7 @@ namespace L5K_Compiler.Properties {
         ///	            Mode := 2#0000_0000_0000_0000,
         ///	            CompatibleModule := 1,
         ///	            KeyMask := 2#0000_0000_0001_1111,
-        ///	            SafetyNet [rest of string was truncated]&quot;;.
+        ///	            SafetyNetwork  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734OB8S {
             get {
@@ -247,20 +244,20 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE $NoName (Parent := &quot;&quot;1734_AENTR_@AENTRNUM@&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
         ///	            ParentModPortId := 1,
-        ///	            CatalogNumber := &quot;&quot;1734-OE2C/C&quot;&quot;,
+        ///	            CatalogNumber := &quot;1734-OE2C/C&quot;,
         ///	            Vendor := 1,
         ///	            ProductType := 115,
         ///	            ProductCode := 25,
         ///	            Major := 3,
         ///	            Minor := 1,
-        ///	            PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	            PortLabel := &quot;RxBACKPLANE&quot;,
         ///	            Slot := @SLOT@,
         ///	            CommMethod := 536870913,
         ///	            ConfigMethod := 8388609,
         ///	            Mode := 2#0000_0000_0000_0000,
-        ///	            CompatibleModul [rest of string was truncated]&quot;;.
+        ///	            CompatibleModule := 0, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734OE2C {
             get {
@@ -269,20 +266,20 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE Local (Parent := &quot;&quot;Local&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE Local (Parent := &quot;Local&quot;,
         ///	              ParentModPortId := 1,
-        ///	              CatalogNumber := &quot;&quot;1756-L72S&quot;&quot;,
+        ///	              CatalogNumber := &quot;1756-L72S&quot;,
         ///	              Vendor := 1,
         ///	              ProductType := 14,
         ///	              ProductCode := 147,
         ///	              Major := 27,
         ///	              Minor := 11,
-        ///	              PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	              PortLabel := &quot;RxBACKPLANE&quot;,
         ///	              ChassisSize := 13,
         ///	              Slot := @SLOT@,
         ///	              Mode := 2#0000_0000_0000_0001,
         ///	              CompatibleModule := 0,
-        ///	              KeyMask := 2#00 [rest of string was truncated]&quot;;.
+        ///	              KeyMask := 2#0000_0000_ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1752L72S {
             get {
@@ -291,19 +288,20 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE ETHERNET_@ETHERNUM@ (Description := &quot;&quot;&quot;&quot;,
-        ///	               Parent := &quot;&quot;Local&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE ETHERNET_@ETHERNUM@ (Parent := &quot;Local&quot;,
         ///	               ParentModPortId := 1,
-        ///	               CatalogNumber := &quot;&quot;1756-EN2T&quot;&quot;,
+        ///	               CatalogNumber := &quot;1756-EN2T&quot;,
         ///	               Vendor := 1,
         ///	               ProductType := 12,
         ///	               ProductCode := 166,
         ///	               Major := 10,
         ///	               Minor := 1,
-        ///	               PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	               PortLabel := &quot;RxBACKPLANE&quot;,
         ///	               Slot := @SLOT@,
-        ///	               NodeAddress := &quot;&quot;192.168.0.1&quot;&quot;,
-        ///	               Mode := 2#0000_0000_0000_0 [rest of string was truncated]&quot;;.
+        ///	               NodeAddress := &quot;192.168.0.1&quot;,
+        ///	               Mode := 2#0000_0000_0000_0000,
+        ///	               CompatibleModule := 1,
+        ///	  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1756EN2T {
             get {
@@ -312,20 +310,17 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE Local (Parent := &quot;&quot;Local&quot;&quot;,
-        ///	              ParentModPortId := 1,
-        ///	              CatalogNumber := &quot;&quot;1756-L71S&quot;&quot;,
-        ///	              Vendor := 1,
-        ///	              ProductType := 14,
-        ///	              ProductCode := 158,
-        ///	              Major := 27,
-        ///	              Minor := 11,
-        ///	              PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
-        ///	              ChassisSize := 13,
-        ///	              Slot := @SLOT@,
-        ///	              Mode := 2#0000_0000_0000_0001,
-        ///	              CompatibleModule := 0,
-        ///	              KeyMask := 2#00 [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to CONTROLLER tempName (ProcessorType := &quot;1756-L71S&quot;,
+        ///                    Major := 27,
+        ///                    TimeSlice := 20,
+        ///                    ShareUnusedTimeSlice := 1,
+        ///                    RedundancyEnabled := 0,
+        ///                    KeepTestEditsOnSwitchOver := 0,
+        ///                    DataTablePadPercentage := 50,
+        ///                    SecurityCode := 0,
+        ///                    ChangesToDetect := 16#ffff_ffff_ffff_ffff,
+        ///                    SFCExecutionControl := &quot;CurrentActive&quot;,
+        ///                    SFCRes [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1756L71S {
             get {
@@ -334,17 +329,17 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @&quot;	MODULE USPC_ZZ:Partner (Parent := &quot;&quot;Comms_Pxxxx&quot;&quot;,
+        ///   Looks up a localized string similar to 	MODULE USPC_ZZ:Partner (Parent := &quot;_1734_AENTR_@AENTRNUM@&quot;,
         ///	                        ParentModPortId := 1,
-        ///	                        CatalogNumber := &quot;&quot;1756-L7SP&quot;&quot;,
+        ///	                        CatalogNumber := &quot;1756-L7SP&quot;,
         ///	                        Vendor := 1,
         ///	                        ProductType := 14,
         ///	                        ProductCode := 146,
         ///	                        Major := 24,
         ///	                        Minor := 1,
-        ///	                        PortLabel := &quot;&quot;RxBACKPLANE&quot;&quot;,
+        ///	                        PortLabel := &quot;RxBACKPLANE&quot;,
         ///	                        Slot := 12,
-        ///	                        Mode := 2#0000_0000_0000_ [rest of string was truncated]&quot;;.
+        ///	                        Mode := 2#0000_0000_00 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1756L7SP {
             get {
@@ -411,6 +406,39 @@ namespace L5K_Compiler.Properties {
         internal static string mPowerFlex755EENETCM {
             get {
                 return ResourceManager.GetString("mPowerFlex755EENETCM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TAG
+        ///	END_TAG
+        ///
+        ///	PROGRAM MainProgram (MAIN := &quot;MainRoutine&quot;,
+        ///	                     MODE := 0,
+        ///	                     DisableFlag := 0,
+        ///	                     UseAsFolder := 0)
+        ///		TAG
+        ///		END_TAG
+        ///
+        ///		ROUTINE MainRoutine 
+        ///		END_ROUTINE
+        ///
+        ///		CHILD_PROGRAMS
+        ///		END_CHILD_PROGRAMS
+        ///
+        ///	END_PROGRAM
+        ///
+        ///	TASK MainTask (Type := CONTINUOUS,
+        ///	               Rate := 10,
+        ///	               Priority := 10,
+        ///	               Watchdog := 500,
+        ///	               DisableUpdateOutputs := No,
+        ///	               InhibitTask := No)
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string tail {
+            get {
+                return ResourceManager.GetString("tail", resourceCulture);
             }
         }
     }

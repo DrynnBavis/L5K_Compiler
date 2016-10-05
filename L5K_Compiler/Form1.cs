@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Resources;
 using Excel = Microsoft.Office.Interop.Excel;
+using Cards = L5K_Compiler.Properties.Resources;
 
 
 namespace L5K_Compiler
@@ -74,8 +75,11 @@ namespace L5K_Compiler
             }
             string fileName = Microsoft.VisualBasic.Interaction.InputBox("Please enter a name for the L5K file:",
                 "Enter File Name", "NewFile");
-            string finalOutput = L5K_Compiler.Properties.Resources.header.Replace("@IEVER@", ieVerBox.Text.ToString());
-            finalOutput.Replace("@PROCTYPE@", procTypeDrop.Text.ToString());
+            string finalOutput = Cards.header.Replace("@IEVER@", ieVerBox.Text.ToString());
+            if (procTypeDrop.Text.ToString().Contains("L71S"))
+                finalOutput += Cards.m1756L71S;
+            finalOutput += Environment.NewLine;
+            finalOutput += Environment.NewLine;
             SplashScreen.ShowSplashScreen();
             SplashScreen.SetStatus("Compiling your file. Please wait...");
             int numCards = moduleList.Count;
@@ -85,8 +89,11 @@ namespace L5K_Compiler
                 if (moduleList[0].name.Contains("1756"))
                 {
                     etrCount++;
-                    string newCard = L5K_Compiler.Properties.Resources.m1756EN2T.Replace("@SLOT@", etrCount.ToString());
+                    string newCard = Cards.m1756EN2T.Replace("@SLOT@", etrCount.ToString());
+                    newCard = newCard.Replace("@ETHERNUM@", etrCount.ToString());
                     finalOutput = finalOutput + newCard;
+                    finalOutput += Environment.NewLine;
+                    finalOutput += Environment.NewLine;
                     moduleList.RemoveAt(0);
                     modSlotCount = 0;
                 }
@@ -94,11 +101,13 @@ namespace L5K_Compiler
                 {
                     aentrCount++;
                     modSlotCount = 0;
-                    string newCard = L5K_Compiler.Properties.Resources.m1734AENTR.Replace("@SLOT@", modSlotCount.ToString());
+                    string newCard = Cards.m1734AENTR.Replace("@SLOT@", modSlotCount.ToString());
                     newCard = newCard.Replace("@SIZE@", numMods[aentrCount].ToString());
                     newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                     newCard = newCard.Replace("@ETHERNUM@", etrCount.ToString());
                     finalOutput = finalOutput + newCard;
+                    finalOutput += Environment.NewLine;
+                    finalOutput += Environment.NewLine;
                     moduleList.RemoveAt(0);
                     modSlotCount++;
                 }
@@ -106,62 +115,77 @@ namespace L5K_Compiler
                 {
                     if (moduleList[0].name == "1734-IB8S")
                     {
-                        string newCard = L5K_Compiler.Properties.Resources.m1734IB8S.Replace("@SLOT@", modSlotCount.ToString());
+                        string newCard = Cards.m1734IB8S.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
                         moduleList.RemoveAt(0);
                         modSlotCount++;
                     }
                     else if (moduleList[0].name == "1734-OB8S")
                     {
-                        string newCard = L5K_Compiler.Properties.Resources.m1734OB8S.Replace("@SLOT@", modSlotCount.ToString());
+                        string newCard = Cards.m1734OB8S.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
                         moduleList.RemoveAt(0);
                         modSlotCount++;
                     }
                     else if (moduleList[0].name == "1734-IB4D")
                     {
-                        string newCard = L5K_Compiler.Properties.Resources.m1734IB4D.Replace("@SLOT@", modSlotCount.ToString());
+                        string newCard = Cards.m1734IB4D.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
                         moduleList.RemoveAt(0);
                         modSlotCount++;
                     }
                     else if (moduleList[0].name == "1734-OB4E")
                     {
-                        string newCard = L5K_Compiler.Properties.Resources.m1734OB4E.Replace("@SLOT@", modSlotCount.ToString());
+                        string newCard = Cards.m1734OB4E.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
                         moduleList.RemoveAt(0);
                         modSlotCount++;
                     }
                     else if (moduleList[0].name == "1734-IE2C")
                     {
-                        string newCard = L5K_Compiler.Properties.Resources.m1734IE2C.Replace("@SLOT@", modSlotCount.ToString());
+                        string newCard = Cards.m1734IE2C.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
                         moduleList.RemoveAt(0);
                         modSlotCount++;
                     }
                     else if (moduleList[0].name == "1734-OE2C")
                     {
-                        string newCard = L5K_Compiler.Properties.Resources.m1734OE2C.Replace("@SLOT@", modSlotCount.ToString());
+                        string newCard = Cards.m1734OE2C.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
                         moduleList.RemoveAt(0);
                         modSlotCount++;
                     }
                     else if (moduleList[0].name == "1734-IR2")
                     {
-                        string newCard = L5K_Compiler.Properties.Resources.m1734IR2.Replace("@SLOT@", modSlotCount.ToString());
+                        string newCard = Cards.m1734IR2.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
                         moduleList.RemoveAt(0);
                         modSlotCount++;
                     }
                 }
             }
+            finalOutput += Cards.tail;
             File.WriteAllText(outputPath + fileName + ".l5k", finalOutput);
             SplashScreen.CloseForm();
         }
@@ -282,7 +306,6 @@ namespace L5K_Compiler
                 changePathBtn.Enabled = true;
                 compileBtn.Enabled = true;
                 importExcelBtn.Enabled = true;
-                string cat = L5K_Compiler.Properties.Resources.header;
             }
         }
 
