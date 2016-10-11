@@ -35,7 +35,7 @@ namespace L5K_Compiler
         //    to be changed for future modules. So the corrected version will look like this:
         //    "	MODULE _xxxx_01M02 (Description := ""~"",. This is the character that will be find-and-replaced with the
         //    values from the excel document.
-        List<Module> moduleList = new List<Module>();
+        List<IOModule> ioList = new List<IOModule>();
         int[] numMods = Enumerable.Repeat(1, 1000).ToArray();
         public ContextMenuStrip procRightClick;
         public ContextMenuStrip localRightClick;
@@ -260,6 +260,7 @@ namespace L5K_Compiler
             savePathLbl.Text = "Current Save Path: " + outputPath;
         }
 
+
         private void extractExcelData()
         {
             if (string.IsNullOrWhiteSpace(panelNameBox.Text) || string.IsNullOrWhiteSpace(plcModuleBox.Text))
@@ -298,10 +299,16 @@ namespace L5K_Compiler
                 int countAENTR = 0;
                 while (i <= numRows)
                 {
-                    string cardName = (string)(ws.Cells[i, 2] as Excel.Range).Value;
-                    while ((cardName == null || (cardName != "1734-AENTR" && cardName != "1756-EN2T")) && i <= numRows)//starts looking through values under the AENTR
+                    string cardName = (string)(ws.Cells[i, plcModuleColumn] as Excel.Range).Value;
+                    if (cardName == null)
                     {
-                        cardName = (string)(ws.Cells[i, 2] as Excel.Range).Value;
+                        i++;
+                        continue;
+                    }
+                    int cardCount = 0;
+                    while (cardName != "1734-AENTR" && i <= (numRows))//starts looking through values under the AENTR
+                    {
+                        cardName = (string)(ws.Cells[i, plcModuleColumn] as Excel.Range).Value;
                         SplashScreen.SetProgress((int)(i * 100.00 / numRows));
                         if (cardName == null)
                         {
@@ -310,76 +317,57 @@ namespace L5K_Compiler
                         }
                         else if (cardName == "1734-IB8S")
                         {
-                            string[] xAdress = { (string)(ws.Cells[i, 3] as Excel.Range).Value, (string)(ws.Cells[i + 1, 3] as Excel.Range).Value, (string)(ws.Cells[i + 2, 3] as Excel.Range).Value, (string)(ws.Cells[i + 3, 3] as Excel.Range).Value, (string)(ws.Cells[i + 4, 3] as Excel.Range).Value, (string)(ws.Cells[i + 5, 3] as Excel.Range).Value, (string)(ws.Cells[i + 6, 3] as Excel.Range).Value, (string)(ws.Cells[i + 7, 3] as Excel.Range).Value };
-                            string[] xTag = { (string)(ws.Cells[i, 4] as Excel.Range).Value, (string)(ws.Cells[i + 1, 4] as Excel.Range).Value, (string)(ws.Cells[i + 2, 4] as Excel.Range).Value, (string)(ws.Cells[i + 3, 4] as Excel.Range).Value, (string)(ws.Cells[i + 4, 4] as Excel.Range).Value, (string)(ws.Cells[i + 5, 4] as Excel.Range).Value, (string)(ws.Cells[i + 6, 4] as Excel.Range).Value, (string)(ws.Cells[i + 7, 4] as Excel.Range).Value };
-                            string[] xDesc = { (string)(ws.Cells[i, 5] as Excel.Range).Value, (string)(ws.Cells[i + 1, 5] as Excel.Range).Value, (string)(ws.Cells[i + 2, 5] as Excel.Range).Value, (string)(ws.Cells[i + 3, 5] as Excel.Range).Value, (string)(ws.Cells[i + 4, 5] as Excel.Range).Value, (string)(ws.Cells[i + 5, 5] as Excel.Range).Value, (string)(ws.Cells[i + 6, 5] as Excel.Range).Value, (string)(ws.Cells[i + 7, 5] as Excel.Range).Value };
-                            moduleList.Add(new Module { type = "1734-IB8S", name = "", modDesc = "8-CH Safety Rated Input Module", address = xAdress, chdesc = xDesc, tag = xTag });
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-IB8S", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount });
+                            cardCount++;
                             numMods[countAENTR]++;
                         }
                         else if (cardName == "1734-OB8S")
                         {
-                            string[] xAdress = { (string)(ws.Cells[i, 3] as Excel.Range).Value, (string)(ws.Cells[i + 1, 3] as Excel.Range).Value, (string)(ws.Cells[i + 2, 3] as Excel.Range).Value, (string)(ws.Cells[i + 3, 3] as Excel.Range).Value, (string)(ws.Cells[i + 4, 3] as Excel.Range).Value, (string)(ws.Cells[i + 5, 3] as Excel.Range).Value, (string)(ws.Cells[i + 6, 3] as Excel.Range).Value, (string)(ws.Cells[i + 7, 3] as Excel.Range).Value };
-                            string[] xTag = { (string)(ws.Cells[i, 4] as Excel.Range).Value, (string)(ws.Cells[i + 1, 4] as Excel.Range).Value, (string)(ws.Cells[i + 2, 4] as Excel.Range).Value, (string)(ws.Cells[i + 3, 4] as Excel.Range).Value, (string)(ws.Cells[i + 4, 4] as Excel.Range).Value, (string)(ws.Cells[i + 5, 4] as Excel.Range).Value, (string)(ws.Cells[i + 6, 4] as Excel.Range).Value, (string)(ws.Cells[i + 7, 4] as Excel.Range).Value };
-                            string[] xDesc = { (string)(ws.Cells[i, 5] as Excel.Range).Value, (string)(ws.Cells[i + 1, 5] as Excel.Range).Value, (string)(ws.Cells[i + 2, 5] as Excel.Range).Value, (string)(ws.Cells[i + 3, 5] as Excel.Range).Value, (string)(ws.Cells[i + 4, 5] as Excel.Range).Value, (string)(ws.Cells[i + 5, 5] as Excel.Range).Value, (string)(ws.Cells[i + 6, 5] as Excel.Range).Value, (string)(ws.Cells[i + 7, 5] as Excel.Range).Value };
-                            moduleList.Add(new Module { type = "1734-OB8S", name = "", modDesc = "8-CH Safety Rated Output Module", address = xAdress, chdesc = xDesc, tag = xTag });
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-OB8S", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount });
+                            cardCount++;
                             numMods[countAENTR]++;
                         }
                         else if (cardName == "1734-IB4D")
                         {
-                            string[] xAdress = { (string)(ws.Cells[i, 3] as Excel.Range).Value, (string)(ws.Cells[i + 1, 3] as Excel.Range).Value, (string)(ws.Cells[i + 2, 3] as Excel.Range).Value, (string)(ws.Cells[i + 3, 3] as Excel.Range).Value };
-                            string[] xTag = { (string)(ws.Cells[i, 4] as Excel.Range).Value, (string)(ws.Cells[i + 1, 4] as Excel.Range).Value, (string)(ws.Cells[i + 2, 4] as Excel.Range).Value, (string)(ws.Cells[i + 3, 4] as Excel.Range).Value };
-                            string[] xDesc = { (string)(ws.Cells[i, 5] as Excel.Range).Value, (string)(ws.Cells[i + 1, 5] as Excel.Range).Value, (string)(ws.Cells[i + 2, 5] as Excel.Range).Value, (string)(ws.Cells[i + 3, 5] as Excel.Range).Value };
-                            moduleList.Add(new Module { type = "1734-IB4D", name = "", modDesc = "4-CH Diagnostic Input Module", address = xAdress, chdesc = xDesc, tag = xTag });
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-IB4D", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount });
+                            cardCount++;
                             numMods[countAENTR]++;
                         }
 
                         else if (cardName == "1734-OB4E")
                         {
-                            string[] xAdress = { (string)(ws.Cells[i, 3] as Excel.Range).Value, (string)(ws.Cells[i + 1, 3] as Excel.Range).Value, (string)(ws.Cells[i + 2, 3] as Excel.Range).Value, (string)(ws.Cells[i + 3, 3] as Excel.Range).Value };
-                            string[] xTag = { (string)(ws.Cells[i, 4] as Excel.Range).Value, (string)(ws.Cells[i + 1, 4] as Excel.Range).Value, (string)(ws.Cells[i + 2, 4] as Excel.Range).Value, (string)(ws.Cells[i + 3, 4] as Excel.Range).Value };
-                            string[] xDesc = { (string)(ws.Cells[i, 5] as Excel.Range).Value, (string)(ws.Cells[i + 1, 5] as Excel.Range).Value, (string)(ws.Cells[i + 2, 5] as Excel.Range).Value, (string)(ws.Cells[i + 3, 5] as Excel.Range).Value };
-                            moduleList.Add(new Module { type = "1734-OB4E", name = "", modDesc = "4-CH Output Module, Protected", address = xAdress, chdesc = xDesc, tag = xTag });
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-OB4E", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount });
+                            cardCount++;
                             numMods[countAENTR]++;
                         }
                         else if (cardName == "1734-IE2C")
                         {
-                            string[] xAdress = { (string)(ws.Cells[i, 3] as Excel.Range).Value, (string)(ws.Cells[i + 1, 3] as Excel.Range).Value };
-                            string[] xTag = { (string)(ws.Cells[i, 4] as Excel.Range).Value, (string)(ws.Cells[i + 1, 4] as Excel.Range).Value };
-                            string[] xDesc = { (string)(ws.Cells[i, 5] as Excel.Range).Value, (string)(ws.Cells[i + 1, 5] as Excel.Range).Value };
-                            moduleList.Add(new Module { type = "1734-IE2C", name = "", modDesc = "2-CH, Analog I Input Module", address = xAdress, chdesc = xDesc, tag = xTag });
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-IE2C", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount });
+                            cardCount++;
                             numMods[countAENTR]++;
                         }
                         else if (cardName == "1734-OE2C")
                         {
-                            string[] xAdress = { (string)(ws.Cells[i, 3] as Excel.Range).Value, (string)(ws.Cells[i + 1, 3] as Excel.Range).Value };
-                            string[] xTag = { (string)(ws.Cells[i, 4] as Excel.Range).Value, (string)(ws.Cells[i + 1, 4] as Excel.Range).Value };
-                            string[] xDesc = { (string)(ws.Cells[i, 5] as Excel.Range).Value, (string)(ws.Cells[i + 1, 5] as Excel.Range).Value };
-                            moduleList.Add(new Module { type = "1734-OE2C", name = "", modDesc = "2-CH, Analog I Output Module", address = xAdress, chdesc = xDesc, tag = xTag });
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-OE2C", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount });
+                            cardCount++;
                             numMods[countAENTR]++;
                         }
                         else if (cardName == "1734-IR2")
                         {
-                            string[] xAdress = { (string)(ws.Cells[i, 3] as Excel.Range).Value, (string)(ws.Cells[i + 1, 3] as Excel.Range).Value };
-                            string[] xTag = { (string)(ws.Cells[i, 4] as Excel.Range).Value, (string)(ws.Cells[i + 1, 4] as Excel.Range).Value };
-                            string[] xDesc = { (string)(ws.Cells[i, 5] as Excel.Range).Value, (string)(ws.Cells[i + 1, 5] as Excel.Range).Value };
-                            moduleList.Add(new Module { type = "1734-IR2", name = "", modDesc = "2-CH RTD Input Module", address = xAdress, chdesc = xDesc, tag = xTag });
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-IR2", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount });
+                            cardCount++;
                             numMods[countAENTR]++;
                         }
                         i++;
                     }
-                    if (cardName == "1756-EN2T")
-                    {
-                        moduleList.Add(new Module { name = "1756-EN2T", modDesc = "Expansion" });
-                        i++;
-                    }
-                    else if(cardName.Contains("AENTR"))
+                    if (i <= numRows && cardName.Contains("AENTR"))
                     {
                         int x = i;
                         while ((string)(ws.Cells[x, 1] as Excel.Range).Value == null)
                         {
                             x++;
                         }
-                        moduleList.Add(new Module { type = "1734-AENTR", name = (string)(ws.Cells[x, 1] as Excel.Range).Value, modDesc = "Expansion" });
+                        ioList.Add(new IOModule { name = (string)(ws.Cells[x, panelNameColumn] as Excel.Range).Value });
                         countAENTR++;
                         i++;
                     }
@@ -392,7 +380,7 @@ namespace L5K_Compiler
                 importExcelBtn.Enabled = true;
             }
         }
-
+        /*
         private void CompileL5K()
         {
             int modSlotCount = 0;
@@ -526,7 +514,7 @@ namespace L5K_Compiler
             finalOutput += Cards.tail;
             File.WriteAllText(outputPath + fileName + ".l5k", finalOutput);
             SplashScreen.CloseForm();
-        }
+        }*/
 
         static Form1 frm1 = new Form1();
         static public void SetModule(string newModule)
@@ -541,7 +529,7 @@ namespace L5K_Compiler
 
         private void compileBtn_Click(object sender, EventArgs e)
         {
-            CompileL5K();
+            //CompileL5K();
         }
 
         private void importExcelBtn_Click(object sender, EventArgs e)
@@ -565,12 +553,18 @@ namespace L5K_Compiler
     }
     public class Module
     {
-        public string type = "";
-        public string name = "";
-        public string modDesc = "";
+        public string type = null;
+        public string name = null;
+        public int? slot = null;
         public string[] chdesc = new string[8];
         public string[] tag = new string[8];
         public string[] address = new string[8];
+    }
+
+    public class IOModule
+    {
+        public List<Module> moduleList = new List<Module>();
+        public string name = null;
     }
 
     public class LocalCard
