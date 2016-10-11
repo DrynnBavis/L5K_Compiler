@@ -43,9 +43,9 @@ namespace L5K_Compiler
         public ContextMenuStrip ioblockRightClick;
         static public string selectedModule = null;
         static public string typeOfModuleAdded = null;
-        static public bool confirmed = false;
-        int localCnt = 0;
+        static public bool confirmedAdd = false;
         int[] subLocalCnt = new int[100];
+        static public TreeNode currentNode;
 
         public Form1()
         {
@@ -58,9 +58,12 @@ namespace L5K_Compiler
             chassisDropSelect.Items.Add("1756-A17    17-Slot ControlLogix Chassis");
         }
 
+        //public TreeView form1Tree {  get { return treeIO; } }
+
         private void InitializeTreeView()
         {
             treeIO.Nodes.Add(procNode);
+            treeIO.Nodes[0].Tag = new LocalCard();
             treeIO.NodeMouseClick += (sender, args) => treeIO.SelectedNode = args.Node;
 
             ToolStripMenuItem delete = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.delete_40x };
@@ -95,12 +98,10 @@ namespace L5K_Compiler
             addIOBlock.Click += new EventHandler(addIOBlock_Click);
 
             procRightClick = new ContextMenuStrip();
-            procRightClick.Items.AddRange(new ToolStripMenuItem[]{addLocalCard, editProc, delete, properties });
-            //procNode.ContextMenuStrip = procRightClick;
+            procRightClick.Items.AddRange(new ToolStripMenuItem[]{ addLocalCard, editProc, properties, delete });
 
             localRightClick = new ContextMenuStrip();
-            localRightClick.Items.AddRange(new ToolStripMenuItem[] { editLocal, addDrive, addIOBlock, properties2, delete });
-            localRightClick.Items.ToString();
+            localRightClick.Items.AddRange(new ToolStripMenuItem[] { addDrive, addIOBlock, editLocal, properties2, delete });
 
             driveRightClick = new ContextMenuStrip();
             driveRightClick.Items.AddRange(new ToolStripMenuItem[] { delete2, properties3 });
@@ -114,11 +115,13 @@ namespace L5K_Compiler
             typeOfModuleAdded = "Local Card";
             ListSelector test = new ListSelector();
             test.ShowDialog();
-            if (confirmed)
+            if (confirmedAdd)
             {
                 TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
                 tn.Text = ("[" + tn.Index + "]" + selectedModule);
                 tn.Tag = new LocalCard();
+                var tag = tn.Tag as LocalCard;
+                tag.type = "local";
                 treeIO.SelectedNode.Expand();
             }
         }
@@ -129,8 +132,10 @@ namespace L5K_Compiler
             typeOfModuleAdded = "Processor";
             ListSelector test = new ListSelector();
             test.ShowDialog();
-            if (confirmed)
+            if (confirmedAdd)
             {
+                var procTag = treeIO.Nodes[0].Tag as LocalCard;
+                procTag.type = "proc";
                 treeIO.SelectedNode.Text = selectedModule;
             }
         }
@@ -141,7 +146,7 @@ namespace L5K_Compiler
             typeOfModuleAdded = "Local Card";
             ListSelector test = new ListSelector();
             test.ShowDialog();
-            if (confirmed)
+            if (confirmedAdd)
             {
                 treeIO.SelectedNode.Text = "[" + treeIO.SelectedNode.Index + "]" + selectedModule;
                 treeIO.SelectedNode.Tag = new LocalCard();
@@ -154,10 +159,13 @@ namespace L5K_Compiler
             typeOfModuleAdded = "Drive";
             ListSelector test = new ListSelector();
             test.ShowDialog();
-            if (confirmed)
+            if (confirmedAdd)
             {
                 TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
                 tn.Tag = new LocalCard();
+                var tag = tn.Tag as LocalCard;
+                tag.type = "drive";
+                treeIO.SelectedNode.Expand();
                 treeIO.SelectedNode.Expand();
             }
         }
@@ -166,12 +174,14 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "IOBlock";
-            ListSelector test = new ListSelector();
-            test.ShowDialog();
-            if (confirmed)
+            ListSelector selector = new ListSelector();
+            selector.ShowDialog();
+            if (confirmedAdd)
             {
                 TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
                 tn.Tag = new LocalCard();
+                var tag = tn.Tag as LocalCard;
+                tag.type = "drive";
                 treeIO.SelectedNode.Expand();
             }
         }
@@ -196,6 +206,10 @@ namespace L5K_Compiler
         void properties_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
+            currentNode = treeIO.SelectedNode;
+            PropertyEditor editor = new PropertyEditor();
+            if(confirmedAdd)
+                editor.ShowDialog();          
         }
 
         void treeIO_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)

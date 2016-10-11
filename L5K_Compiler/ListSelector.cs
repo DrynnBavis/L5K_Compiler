@@ -48,7 +48,7 @@ namespace L5K_Compiler
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            Form1.confirmed = false;
+            Form1.confirmedAdd = false;
             this.Close();
         }
 
@@ -57,7 +57,7 @@ namespace L5K_Compiler
             if (listBox1.SelectedItem != null)
             {
                 Form1.SetModule(listBox1.SelectedItem.ToString());
-                Form1.confirmed = true; 
+                Form1.confirmedAdd = true; 
                 this.Close();
             }
             else

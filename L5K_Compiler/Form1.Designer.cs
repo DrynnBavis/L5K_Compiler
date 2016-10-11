@@ -211,8 +211,8 @@
         private System.Windows.Forms.TextBox panelNameBox;
         private System.Windows.Forms.TextBox plcModuleBox;
         private System.Windows.Forms.Label savePathLbl;
-        private System.Windows.Forms.TreeView treeIO;
         private System.Windows.Forms.Button commitTreeBtn;
+        public System.Windows.Forms.TreeView treeIO;
     }
 }
 
