@@ -63,34 +63,34 @@ namespace L5K_Compiler
             treeIO.Nodes.Add(procNode);
             treeIO.NodeMouseClick += (sender, args) => treeIO.SelectedNode = args.Node;
 
-            ToolStripMenuItem delete = new ToolStripMenuItem();
+            ToolStripMenuItem delete = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.delete_40x };
             delete.Text = "Delete";
             delete.Click += new EventHandler(delete_Click);
-            ToolStripMenuItem delete2 = new ToolStripMenuItem();
+            ToolStripMenuItem delete2 = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.delete_40x };
             delete2.Text = "Delete";
             delete2.Click += new EventHandler(delete_Click);
-            ToolStripMenuItem properties = new ToolStripMenuItem();
+            ToolStripMenuItem properties = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.tools_40x };
             properties.Text = "Properties";
             properties.Click += new EventHandler(properties_Click);
-            ToolStripMenuItem properties2 = new ToolStripMenuItem();
+            ToolStripMenuItem properties2 = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.tools_40x };
             properties2.Text = "Properties";
             properties2.Click += new EventHandler(properties_Click);
-            ToolStripMenuItem properties3 = new ToolStripMenuItem();
+            ToolStripMenuItem properties3 = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.tools_40x };
             properties3.Text = "Properties";
             properties3.Click += new EventHandler(properties_Click);
-            ToolStripMenuItem addLocalCard = new ToolStripMenuItem();
+            ToolStripMenuItem addLocalCard = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.add_40x };
             addLocalCard.Text = "Add Local Card";
             addLocalCard.Click += new EventHandler(addLocalCard_Click);
-            ToolStripMenuItem editProc = new ToolStripMenuItem();
+            ToolStripMenuItem editProc = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.highlight_40x };
             editProc.Text = "Change Processor";
             editProc.Click += new EventHandler(editProc_Click);
-            ToolStripMenuItem editLocal = new ToolStripMenuItem();
+            ToolStripMenuItem editLocal = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.highlight_40x };
             editLocal.Text = "Change Local";
             editLocal.Click += new EventHandler(editLocal_Click);
-            ToolStripMenuItem addDrive = new ToolStripMenuItem();
+            ToolStripMenuItem addDrive = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.add_40x };
             addDrive.Text = "Add Drive";
             addDrive.Click += new EventHandler(addDrive_Click);
-            ToolStripMenuItem addIOBlock = new ToolStripMenuItem();
+            ToolStripMenuItem addIOBlock = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.add_40x };
             addIOBlock.Text = "Add IO Block";
             addIOBlock.Click += new EventHandler(addIOBlock_Click);
 
@@ -130,7 +130,9 @@ namespace L5K_Compiler
             ListSelector test = new ListSelector();
             test.ShowDialog();
             if (confirmed)
+            {
                 treeIO.SelectedNode.Text = selectedModule;
+            }
         }
         // Local
         void editLocal_Click(object sender, EventArgs e)
@@ -181,9 +183,13 @@ namespace L5K_Compiler
             foreach (TreeNode node in treeIO.Nodes[0].Nodes)
             {
                 if (node.Index >= 9)
+                {
                     node.Text = "[" + node.Index + "]" + node.Text.ToString().Substring(4);
+                }
                 else
+                {
                     node.Text = "[" + node.Index + "]" + node.Text.ToString().Substring(3);
+                }
             }
         }
 
@@ -392,7 +398,10 @@ namespace L5K_Compiler
                 "Enter File Name", "NewFile");
             string finalOutput = Cards.header.Replace("@IEVER@", "2.15");
             if (chassisDropSelect.Text.ToString().Contains("L71S"))
+            {
                 finalOutput += Cards.m1756L71S;
+            }
+
             finalOutput += Environment.NewLine;
             finalOutput += Environment.NewLine;
             SplashScreen.ShowSplashScreen();

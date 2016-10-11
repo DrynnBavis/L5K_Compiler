@@ -61,6 +61,26 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap add_40x {
+            get {
+                object obj = ResourceManager.GetObject("add_40x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap delete_40x {
+            get {
+                object obj = ResourceManager.GetObject("delete_40x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (*********************************************
         ///
         ///  Import-Export
@@ -77,6 +97,16 @@ namespace L5K_Compiler.Properties {
         internal static string header {
             get {
                 return ResourceManager.GetString("header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap highlight_40x {
+            get {
+                object obj = ResourceManager.GetObject("highlight_40x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -212,8 +242,7 @@ namespace L5K_Compiler.Properties {
         ///	            CommMethod := 1073741824,
         ///	            ConfigMethod := 8388611,
         ///	            Mode := 2#0000_0000_0000_0000,
-        ///	            CompatibleModule := 0,
-        /// [rest of string was truncated]&quot;;.
+        ///	            CompatibleModule := 0,        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string m1734OB4E {
             get {
@@ -410,6 +439,16 @@ namespace L5K_Compiler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap page_40x {
+            get {
+                object obj = ResourceManager.GetObject("page_40x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TAG
         ///	END_TAG
         ///
@@ -439,6 +478,16 @@ namespace L5K_Compiler.Properties {
         internal static string tail {
             get {
                 return ResourceManager.GetString("tail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tools_40x {
+            get {
+                object obj = ResourceManager.GetObject("tools_40x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
