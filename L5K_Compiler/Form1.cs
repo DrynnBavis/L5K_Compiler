@@ -35,7 +35,8 @@ namespace L5K_Compiler
         //    to be changed for future modules. So the corrected version will look like this:
         //    "	MODULE _xxxx_01M02 (Description := ""~"",. This is the character that will be find-and-replaced with the
         //    values from the excel document.
-        List<IOModule> ioList = new List<IOModule>();
+        public List<IOModule> ioList = new List<IOModule>();
+        public List<IOModule> ioListADDED = new List<IOModule>();
         int[] numMods = Enumerable.Repeat(1, 1000).ToArray();
         public ContextMenuStrip procRightClick;
         public ContextMenuStrip localRightClick;
@@ -113,7 +114,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "Local Card";
-            ListSelector test = new ListSelector();
+            ListSelector test = new ListSelector(ioList, ioListADDED);
             test.ShowDialog();
             if (confirmedAdd)
             {
@@ -130,7 +131,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "Processor";
-            ListSelector test = new ListSelector();
+            ListSelector test = new ListSelector(ioList, ioListADDED);
             test.ShowDialog();
             if (confirmedAdd)
             {
@@ -144,7 +145,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "Local Card";
-            ListSelector test = new ListSelector();
+            ListSelector test = new ListSelector(ioList, ioListADDED);
             test.ShowDialog();
             if (confirmedAdd)
             {
@@ -157,7 +158,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "Drive";
-            ListSelector test = new ListSelector();
+            ListSelector test = new ListSelector(ioList, ioListADDED);
             test.ShowDialog();
             if (confirmedAdd)
             {
@@ -166,7 +167,6 @@ namespace L5K_Compiler
                 var tag = tn.Tag as LocalCard;
                 tag.type = "drive";
                 treeIO.SelectedNode.Expand();
-                treeIO.SelectedNode.Expand();
             }
         }
         
@@ -174,14 +174,18 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "IOBlock";
-            ListSelector selector = new ListSelector();
-            selector.ShowDialog();
+            ListSelector test = new ListSelector(ioList, ioListADDED);
+            try
+            {
+                test.ShowDialog();
+            }
+            catch { confirmedAdd = false; }
             if (confirmedAdd)
             {
                 TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
                 tn.Tag = new LocalCard();
                 var tag = tn.Tag as LocalCard;
-                tag.type = "drive";
+                tag.type = "IOBlock";
                 treeIO.SelectedNode.Expand();
             }
         }
@@ -189,6 +193,18 @@ namespace L5K_Compiler
         void delete_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
+            var tag = treeIO.SelectedNode.Tag as LocalCard;
+            if ( tag.type == "IOBlock") //updates lists of used/unused io modules
+            {
+                IOModule cardToBeSwapped = null;
+                foreach (IOModule card in ioListADDED)
+                {
+                    if (treeIO.SelectedNode.Text == card.name)
+                        cardToBeSwapped = card;
+                }
+                ioListADDED.Remove(cardToBeSwapped);
+                ioList.Add(cardToBeSwapped);
+            }
             treeIO.Nodes.Remove(treeIO.SelectedNode);
             foreach (TreeNode node in treeIO.Nodes[0].Nodes)
             {

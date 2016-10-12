@@ -141,7 +141,7 @@
             this.plcModuleBox.Name = "plcModuleBox";
             this.plcModuleBox.Size = new System.Drawing.Size(62, 20);
             this.plcModuleBox.TabIndex = 12;
-            this.plcModuleBox.Text = "5";
+            this.plcModuleBox.Text = "6";
             this.plcModuleBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.numberOnly_KeyPress);
             // 
             // savePathLbl

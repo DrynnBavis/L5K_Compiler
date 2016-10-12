@@ -14,13 +14,19 @@ namespace L5K_Compiler
     public partial class ListSelector : Form
     {
         private string windowName = Form1.typeOfModuleAdded;
+        IOModule cardAdded = null;
 
-        public ListSelector()
+        public ListSelector(List<IOModule> cardList, List<IOModule> cardListADDED)
         {
+            this.Text = windowName;
+            this._cardList = cardList;
+            this._cardListADDED = cardListADDED;
             InitializeComponent();
             InitializeList();
-            this.Text = windowName;
         }
+
+        private List<IOModule> _cardList;
+        private List<IOModule> _cardListADDED;
 
         private void InitializeList()
         {
@@ -29,10 +35,19 @@ namespace L5K_Compiler
                 string[] listDrives = { "ACS880", "test" };
                 listBox1.Items.AddRange(listDrives);
             }
+
             else if (windowName == "IOBlock")
             {
-                string[] listIOBlock = { "AENTR", "test" };
-                listBox1.Items.AddRange(listIOBlock);
+                if (!_cardList.Any())
+                {
+                    MessageBox.Show("No cards loaded! Please import cards from IO List.", "Error Empty Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                }
+                foreach (IOModule card in _cardList)
+                {
+                    cardAdded = card;
+                    listBox1.Items.Add(card.name);
+                }
             }
             else if (windowName == "Local Card")
             {
@@ -60,7 +75,19 @@ namespace L5K_Compiler
                 Form1.confirmedAdd = true; 
                 this.Close();
             }
-            else
+            if (cardAdded != null)
+            {
+                IOModule removedCard = null;
+                foreach (IOModule card in _cardList)
+                {
+                    if (listBox1.SelectedItem.ToString() == card.name)
+                        removedCard = card;
+                }
+                _cardList.Remove(removedCard);
+                _cardListADDED.Add(removedCard);
+
+            }
+            else if(listBox1.SelectedItem == null)
             {
                 MessageBox.Show("No module selected!");
             }
