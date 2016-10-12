@@ -45,7 +45,7 @@
             // 
             // importExcelBtn
             // 
-            this.importExcelBtn.Location = new System.Drawing.Point(236, 68);
+            this.importExcelBtn.Location = new System.Drawing.Point(243, 67);
             this.importExcelBtn.Margin = new System.Windows.Forms.Padding(1);
             this.importExcelBtn.Name = "importExcelBtn";
             this.importExcelBtn.Size = new System.Drawing.Size(137, 23);
@@ -93,14 +93,15 @@
             this.chassisDropSelect.FormattingEnabled = true;
             this.chassisDropSelect.Location = new System.Drawing.Point(12, 25);
             this.chassisDropSelect.Name = "chassisDropSelect";
-            this.chassisDropSelect.Size = new System.Drawing.Size(201, 21);
+            this.chassisDropSelect.Size = new System.Drawing.Size(222, 21);
             this.chassisDropSelect.TabIndex = 7;
+            this.chassisDropSelect.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(230, 10);
+            this.label2.Location = new System.Drawing.Point(237, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(106, 13);
             this.label2.TabIndex = 8;
@@ -109,7 +110,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(236, 27);
+            this.label3.Location = new System.Drawing.Point(243, 26);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 9;
@@ -118,7 +119,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(308, 27);
+            this.label4.Location = new System.Drawing.Point(315, 26);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 10;
@@ -126,7 +127,7 @@
             // 
             // panelNameBox
             // 
-            this.panelNameBox.Location = new System.Drawing.Point(236, 44);
+            this.panelNameBox.Location = new System.Drawing.Point(243, 43);
             this.panelNameBox.MaxLength = 2;
             this.panelNameBox.Name = "panelNameBox";
             this.panelNameBox.Size = new System.Drawing.Size(62, 20);
@@ -136,7 +137,7 @@
             // 
             // plcModuleBox
             // 
-            this.plcModuleBox.Location = new System.Drawing.Point(308, 44);
+            this.plcModuleBox.Location = new System.Drawing.Point(315, 43);
             this.plcModuleBox.MaxLength = 2;
             this.plcModuleBox.Name = "plcModuleBox";
             this.plcModuleBox.Size = new System.Drawing.Size(62, 20);
@@ -157,13 +158,13 @@
             // 
             this.treeIO.Location = new System.Drawing.Point(12, 52);
             this.treeIO.Name = "treeIO";
-            this.treeIO.Size = new System.Drawing.Size(201, 320);
+            this.treeIO.Size = new System.Drawing.Size(222, 320);
             this.treeIO.TabIndex = 14;
             this.treeIO.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeIO_NodeMouseClick);
             // 
             // commitTreeBtn
             // 
-            this.commitTreeBtn.Location = new System.Drawing.Point(220, 348);
+            this.commitTreeBtn.Location = new System.Drawing.Point(240, 349);
             this.commitTreeBtn.Name = "commitTreeBtn";
             this.commitTreeBtn.Size = new System.Drawing.Size(75, 23);
             this.commitTreeBtn.TabIndex = 15;

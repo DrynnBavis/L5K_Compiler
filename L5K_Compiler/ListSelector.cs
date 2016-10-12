@@ -18,10 +18,10 @@ namespace L5K_Compiler
 
         public ListSelector(List<IOModule> cardList, List<IOModule> cardListADDED)
         {
-            this.Text = windowName;
+            InitializeComponent();
+            this.Text = windowName + " Selector";
             this._cardList = cardList;
             this._cardListADDED = cardListADDED;
-            InitializeComponent();
             InitializeList();
         }
 
@@ -85,6 +85,7 @@ namespace L5K_Compiler
                 }
                 _cardList.Remove(removedCard);
                 _cardListADDED.Add(removedCard);
+                Form1.confirmedAdd = true;
 
             }
             else if(listBox1.SelectedItem == null)

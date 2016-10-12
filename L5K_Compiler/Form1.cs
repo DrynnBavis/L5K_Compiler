@@ -45,26 +45,34 @@ namespace L5K_Compiler
         static public string selectedModule = null;
         static public string typeOfModuleAdded = null;
         static public bool confirmedAdd = false;
+        static public bool confirmedEdit = false;
+        static public bool[] localSlots = new bool[20];
         int[] subLocalCnt = new int[100];
         static public TreeNode currentNode;
+        static public int slotChanged;
+        static public int chassisSize;
+        static public bool chassisSizeSelected = false;
+        static public bool processorSelected = false;
 
         public Form1()
         {
             InitializeComponent();
             InitializeTreeView();
             savePathLbl.Text += outputPath;
-            chassisDropSelect.Items.Add("1756-A7     7-Slot ControlLogix Chassis");
+            chassisDropSelect.Items.Add("1756-A7      7-Slot ControlLogix Chassis");
             chassisDropSelect.Items.Add("1756-A10    10-Slot ControlLogix Chassis");
             chassisDropSelect.Items.Add("1756-A13    13-Slot ControlLogix Chassis");
             chassisDropSelect.Items.Add("1756-A17    17-Slot ControlLogix Chassis");
         }
 
-        //public TreeView form1Tree {  get { return treeIO; } }
+        public TreeView form1Tree { get { return treeIO; } }
 
         private void InitializeTreeView()
         {
             treeIO.Nodes.Add(procNode);
             treeIO.Nodes[0].Tag = new LocalCard();
+            var rootTag = procNode.Tag as LocalCard;
+            rootTag.slot = 0;
             treeIO.NodeMouseClick += (sender, args) => treeIO.SelectedNode = args.Node;
 
             ToolStripMenuItem delete = new ToolStripMenuItem() { Image = L5K_Compiler.Properties.Resources.delete_40x };
@@ -99,7 +107,7 @@ namespace L5K_Compiler
             addIOBlock.Click += new EventHandler(addIOBlock_Click);
 
             procRightClick = new ContextMenuStrip();
-            procRightClick.Items.AddRange(new ToolStripMenuItem[]{ addLocalCard, editProc, properties, delete });
+            procRightClick.Items.AddRange(new ToolStripMenuItem[] { addLocalCard, editProc, properties, delete });
 
             localRightClick = new ContextMenuStrip();
             localRightClick.Items.AddRange(new ToolStripMenuItem[] { addDrive, addIOBlock, editLocal, properties2, delete });
@@ -113,18 +121,24 @@ namespace L5K_Compiler
         void addLocalCard_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
-            typeOfModuleAdded = "Local Card";
-            ListSelector test = new ListSelector(ioList, ioListADDED);
-            test.ShowDialog();
-            if (confirmedAdd)
+            if (processorSelected == true && chassisSizeSelected == true)
             {
-                TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
-                tn.Text = ("[" + tn.Index + "]" + selectedModule);
-                tn.Tag = new LocalCard();
-                var tag = tn.Tag as LocalCard;
-                tag.type = "local";
-                treeIO.SelectedNode.Expand();
+                typeOfModuleAdded = "Local Card";
+                ListSelector test = new ListSelector(ioList, ioListADDED);
+                test.ShowDialog();
+                if (confirmedAdd)
+                {
+                    TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
+                    tn.Text = ("[?]" + selectedModule);
+                    tn.Tag = new LocalCard();
+                    var tag = tn.Tag as LocalCard;
+                    tag.type = "local";
+                    treeIO.SelectedNode.Expand();
+                    simulatePropertiesClick();
+                }
             }
+            else
+                MessageBox.Show("Error: You need a processor and chassis size selected first.", "Invalid Card Index Detected", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         void editProc_Click(object sender, EventArgs e)
@@ -137,7 +151,9 @@ namespace L5K_Compiler
             {
                 var procTag = treeIO.Nodes[0].Tag as LocalCard;
                 procTag.type = "proc";
-                treeIO.SelectedNode.Text = selectedModule;
+                treeIO.SelectedNode.Text = "[0]" + selectedModule;
+                processorSelected = true;
+                simulatePropertiesClick();
             }
         }
         // Local
@@ -149,8 +165,8 @@ namespace L5K_Compiler
             test.ShowDialog();
             if (confirmedAdd)
             {
-                treeIO.SelectedNode.Text = "[" + treeIO.SelectedNode.Index + "]" + selectedModule;
-                treeIO.SelectedNode.Tag = new LocalCard();
+                treeIO.SelectedNode.Text = "[?]" + selectedModule;
+                simulatePropertiesClick();
             }
         }
 
@@ -169,7 +185,7 @@ namespace L5K_Compiler
                 treeIO.SelectedNode.Expand();
             }
         }
-        
+
         void addIOBlock_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
@@ -185,7 +201,7 @@ namespace L5K_Compiler
                 TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
                 tn.Tag = new LocalCard();
                 var tag = tn.Tag as LocalCard;
-                tag.type = "IOBlock";
+                tag.type = "ioBlock";
                 treeIO.SelectedNode.Expand();
             }
         }
@@ -194,7 +210,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             var tag = treeIO.SelectedNode.Tag as LocalCard;
-            if ( tag.type == "IOBlock") //updates lists of used/unused io modules
+            if (tag.type == "IOBlock") //updates lists of used/unused io modules
             {
                 IOModule cardToBeSwapped = null;
                 foreach (IOModule card in ioListADDED)
@@ -206,26 +222,43 @@ namespace L5K_Compiler
                 ioList.Add(cardToBeSwapped);
             }
             treeIO.Nodes.Remove(treeIO.SelectedNode);
-            foreach (TreeNode node in treeIO.Nodes[0].Nodes)
-            {
-                if (node.Index >= 9)
-                {
-                    node.Text = "[" + node.Index + "]" + node.Text.ToString().Substring(4);
-                }
-                else
-                {
-                    node.Text = "[" + node.Index + "]" + node.Text.ToString().Substring(3);
-                }
-            }
         }
 
         void properties_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             currentNode = treeIO.SelectedNode;
+            var properties = currentNode.Tag as LocalCard;
             PropertyEditor editor = new PropertyEditor();
-            if(confirmedAdd)
-                editor.ShowDialog();          
+            if (confirmedAdd)
+            {
+                editor.ShowDialog();
+                if (confirmedEdit)
+                {
+                    if (currentNode.Level == 2)
+                        currentNode.Text = selectedModule + " " + properties.name;
+                    else
+                        currentNode.Text = "[" + properties.slot + "]" + selectedModule + " " + properties.name;
+                }
+            }
+        }
+
+        void simulatePropertiesClick()
+        {
+            currentNode = treeIO.SelectedNode;
+            var properties = currentNode.Tag as LocalCard;
+            PropertyEditor editor = new PropertyEditor();
+            if (confirmedAdd)
+            {
+                editor.ShowDialog();
+                if (confirmedEdit)
+                {
+                    if (currentNode.Level == 2)
+                        currentNode.Text = selectedModule + " " + properties.name;
+                    else
+                        currentNode.Text = "[" + properties.slot + "]" + selectedModule + " " + properties.name;
+                }
+            }
         }
 
         void treeIO_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -566,6 +599,48 @@ namespace L5K_Compiler
             PrintNodesRecursive(treeIO.Nodes[0]);
         }
 
+        private void ComboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            chassisSizeSelected = true;
+            int? highestSlot = 0;
+            foreach (TreeNode node in treeIO.Nodes[0].Nodes)
+            {
+                var properties = node.Tag as LocalCard;
+                if (properties.slot != null && properties.slot > highestSlot)
+                    highestSlot = properties.slot;
+            }
+            ComboBox chassisSelect = (ComboBox)sender;
+            if (chassisSelect.Text.Contains("A7"))
+            {
+                if (highestSlot < 7)
+                    chassisSize = 7;
+                else
+                    MessageBox.Show("Error: You have cards in slots that are outside of the requested backplane's bounds.", "Invalid Card Index Detected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (chassisSelect.Text.Contains("A10"))
+            {
+                if (highestSlot < 10)
+                    chassisSize = 10;
+                else
+                    MessageBox.Show("Error: You have cards in slots that are outside of the requested backplane's bounds.", "Invalid Card Index Detected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (chassisSelect.Text.Contains("A13"))
+            {
+                if (highestSlot < 13)
+                    chassisSize = 13;
+                else
+                    MessageBox.Show("Error: You have cards in slots that are outside of the requested backplane's bounds.", "Invalid Card Index Detected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (chassisSelect.Text.Contains("A17"))
+            {
+                if (highestSlot < 17)
+                    chassisSize = 17;
+                else
+                    MessageBox.Show("Error: You have cards in slots that are outside of the requested backplane's bounds.", "Invalid Card Index Detected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+                MessageBox.Show("something impossible has happened");
+        }
     }
     public class Module
     {
