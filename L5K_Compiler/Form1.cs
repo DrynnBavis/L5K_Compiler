@@ -43,6 +43,7 @@ namespace L5K_Compiler
         public ContextMenuStrip driveRightClick;
         public ContextMenuStrip ioblockRightClick;
         static public string selectedModule = null;
+        public List<string> ioToAdd = new List<string>();
         static public string typeOfModuleAdded = null;
         static public bool confirmedAdd = false;
         static public bool confirmedEdit = false;
@@ -124,7 +125,7 @@ namespace L5K_Compiler
             if (processorSelected == true && chassisSizeSelected == true)
             {
                 typeOfModuleAdded = "Local Card";
-                ListSelector test = new ListSelector(ioList, ioListADDED);
+                ListSelector test = new ListSelector(ioList, ioListADDED, ioToAdd);
                 test.ShowDialog();
                 if (confirmedAdd)
                 {
@@ -145,7 +146,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "Processor";
-            ListSelector test = new ListSelector(ioList, ioListADDED);
+            ListSelector test = new ListSelector(ioList, ioListADDED, ioToAdd);
             test.ShowDialog();
             if (confirmedAdd)
             {
@@ -161,7 +162,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "Local Card";
-            ListSelector test = new ListSelector(ioList, ioListADDED);
+            ListSelector test = new ListSelector(ioList, ioListADDED, ioToAdd);
             test.ShowDialog();
             if (confirmedAdd)
             {
@@ -174,7 +175,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             typeOfModuleAdded = "Drive";
-            ListSelector test = new ListSelector(ioList, ioListADDED);
+            ListSelector test = new ListSelector(ioList, ioListADDED, ioToAdd);
             test.ShowDialog();
             if (confirmedAdd)
             {
@@ -189,8 +190,13 @@ namespace L5K_Compiler
         void addIOBlock_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
+            addIOBlock();
+        }
+
+        public void addIOBlock()
+        {
             typeOfModuleAdded = "IOBlock";
-            ListSelector test = new ListSelector(ioList, ioListADDED);
+            ListSelector test = new ListSelector(ioList, ioListADDED, ioToAdd);
             try
             {
                 test.ShowDialog();
@@ -198,11 +204,15 @@ namespace L5K_Compiler
             catch { confirmedAdd = false; }
             if (confirmedAdd)
             {
-                TreeNode tn = treeIO.SelectedNode.Nodes.Add(selectedModule);
+                foreach (string ioBlock in ioToAdd)
+                {
+                TreeNode tn = treeIO.SelectedNode.Nodes.Add(ioBlock);
                 tn.Tag = new LocalCard();
                 var tag = tn.Tag as LocalCard;
                 tag.type = "ioBlock";
                 treeIO.SelectedNode.Expand();
+                }
+                ioToAdd.Clear();
             }
         }
 
@@ -210,7 +220,7 @@ namespace L5K_Compiler
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
             var tag = treeIO.SelectedNode.Tag as LocalCard;
-            if (tag.type == "IOBlock") //updates lists of used/unused io modules
+            if (tag.type == "ioBlock") //updates lists of used/unused io modules
             {
                 IOModule cardToBeSwapped = null;
                 foreach (IOModule card in ioListADDED)

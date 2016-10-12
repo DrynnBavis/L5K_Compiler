@@ -16,17 +16,19 @@ namespace L5K_Compiler
         private string windowName = Form1.typeOfModuleAdded;
         IOModule cardAdded = null;
 
-        public ListSelector(List<IOModule> cardList, List<IOModule> cardListADDED)
+        public ListSelector(List<IOModule> cardList, List<IOModule> cardListADDED, List<string> ioNeedsAdding)
         {
             InitializeComponent();
             this.Text = windowName + " Selector";
             this._cardList = cardList;
             this._cardListADDED = cardListADDED;
+            this.ioToAdd = ioNeedsAdding;
             InitializeList();
         }
 
         private List<IOModule> _cardList;
         private List<IOModule> _cardListADDED;
+        private List<string> ioToAdd;
 
         private void InitializeList()
         {
@@ -34,6 +36,7 @@ namespace L5K_Compiler
             {
                 string[] listDrives = { "ACS880", "test" };
                 listBox1.Items.AddRange(listDrives);
+                listBox1.SelectionMode = SelectionMode.One;
             }
 
             else if (windowName == "IOBlock")
@@ -42,6 +45,7 @@ namespace L5K_Compiler
                 {
                     MessageBox.Show("No cards loaded! Please import cards from IO List.", "Error Empty Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Close();
+                    listBox1.SelectionMode = SelectionMode.MultiExtended;
                 }
                 foreach (IOModule card in _cardList)
                 {
@@ -53,11 +57,13 @@ namespace L5K_Compiler
             {
                 string[] listLocals = { "1756-EN2T", "test" };
                 listBox1.Items.AddRange(listLocals);
+                listBox1.SelectionMode = SelectionMode.One;
             }
             else if (windowName == "Processor")
             {
                 string[] listProcessors = { "1756-L71S", "test" };
                 listBox1.Items.AddRange(listProcessors);
+                listBox1.SelectionMode = SelectionMode.One;
             }
         }
 
@@ -69,10 +75,18 @@ namespace L5K_Compiler
 
         private void addBtn_Click(object sender, EventArgs e)
         {
+            foreach (Object item in listBox1.SelectedItems)
+                addCard(item);
+        }
+
+        private void addCard(Object selectedItem)
+        {
             if (listBox1.SelectedItem != null)
             {
-                Form1.SetModule(listBox1.SelectedItem.ToString());
-                Form1.confirmedAdd = true; 
+                Form1.selectedModule = selectedItem.ToString();
+                if (windowName == "IOBlock")
+                    ioToAdd.Add(selectedItem.ToString());
+                Form1.confirmedAdd = true;
                 this.Close();
             }
             if (cardAdded != null)
@@ -80,15 +94,14 @@ namespace L5K_Compiler
                 IOModule removedCard = null;
                 foreach (IOModule card in _cardList)
                 {
-                    if (listBox1.SelectedItem.ToString() == card.name)
+                    if (selectedItem.ToString() == card.name)
                         removedCard = card;
                 }
                 _cardList.Remove(removedCard);
                 _cardListADDED.Add(removedCard);
                 Form1.confirmedAdd = true;
-
             }
-            else if(listBox1.SelectedItem == null)
+            else if (selectedItem == null)
             {
                 MessageBox.Show("No module selected!");
             }
