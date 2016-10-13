@@ -68,7 +68,7 @@ namespace L5K_Compiler
             }
             if(ipAddressControl1.Enabled)
             {
-                ipAddressControl1.Text = properties.ipAdress;
+                ipAddressControl1.Text = properties.ipAddress;
             }
             Form1.confirmedAdd = true;
         }
@@ -107,6 +107,10 @@ namespace L5K_Compiler
                     {
                         slotIsOkay = true;
                     }
+                    else if (properties.slot == newSlotNumber)
+                    {
+                        slotIsOkay = true;
+                    }
                     else
                         MessageBox.Show("Error: Slot is either currently in use, or outside of rack range.", "Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -127,6 +131,7 @@ namespace L5K_Compiler
                 else if (localIsOkay && properties.type == "local")
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
+                    properties.ipAddress = ipAddressControl1.Text;
                     if (properties.slot != null)
                         Form1.localSlots[Convert.ToInt32(properties.slot)] = false;
                     Form1.localSlots[newSlotNumber] = true;
@@ -134,10 +139,10 @@ namespace L5K_Compiler
                     Form1.slotChanged = newSlotNumber;
                     this.Close();
                 }
-                else if (driveIsOkay && properties.type == "drive")
+                else if (driveIsOkay && (properties.type == "drive" || properties.type == "ioBlock"))
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
-                    properties.ipAdress = ipAddressControl1.Text;
+                    properties.ipAddress = ipAddressControl1.Text;
                     if (properties.slot != null)
                         Form1.localSlots[Convert.ToInt32(properties.slot)] = false;
                     Form1.localSlots[newSlotNumber] = true;

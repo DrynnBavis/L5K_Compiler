@@ -145,7 +145,7 @@ IE_VER := @IEVER@;</value>
     <value>..\Resources\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="m1734AENTR" xml:space="preserve">
-    <value>	MODULE _1734_AENTR_@AENTRNUM@ (Parent := "ETHERNET_@ETHERNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	              ParentModPortId := 2,
 	              CatalogNumber := "1734-AENTR/A",
 	              Vendor := 1,
@@ -156,7 +156,7 @@ IE_VER := @IEVER@;</value>
 	              PortLabel := "ENet",
 	              ChassisSize := @SIZE@,
 	              Slot := @SLOT@,
-	              NodeAddress := "192.168.0.1",
+	              NodeAddress := "@IP@",
 	              CommMethod := 805306369,
 	              Mode := 2#0000_0000_0000_0000,
 	              CompatibleModule := 0,
@@ -166,7 +166,7 @@ IE_VER := @IEVER@;</value>
     END_MODULE</value>
   </data>
   <data name="m1734IB4D" xml:space="preserve">
-    <value>	MODULE $NoName (Parent := "_1734_AENTR_@AENTRNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	            CatalogNumber := "1734-IB4D/C",
 	            Vendor := 1,
 	            ProductType := 7,
@@ -186,7 +186,7 @@ IE_VER := @IEVER@;</value>
         END_MODULE</value>
   </data>
   <data name="m1734IB8S" xml:space="preserve">
-    <value>	MODULE $NoName (Parent := "_1734_AENTR_@AENTRNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	            ParentModPortId := 1,
 	            CatalogNumber := "1734-IB8S/A",
 	            Vendor := 1,
@@ -207,7 +207,7 @@ IE_VER := @IEVER@;</value>
     END_MODULE</value>
   </data>
   <data name="m1734IE2C" xml:space="preserve">
-    <value>	MODULE $NoName (Parent := "_1734_AENTR_@AENTRNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	            ParentModPortId := 1,
 	            CatalogNumber := "1734-IE2C/C",
 	            Vendor := 1,
@@ -229,7 +229,7 @@ IE_VER := @IEVER@;</value>
     END_MODULE</value>
   </data>
   <data name="m1734IR2" xml:space="preserve">
-    <value>	MODULE $NoName (Parent := "_1734_AENTR_@AENTRNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	                 ParentModPortId := 1,
 	                 CatalogNumber := "1734-IR2/C",
 	                 Vendor := 1,
@@ -250,7 +250,7 @@ IE_VER := @IEVER@;</value>
 	END_MODULE</value>
   </data>
   <data name="m1734OB4E" xml:space="preserve">
-    <value>	MODULE $NoName (Parent := "_1734_AENTR_@AENTRNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	            ParentModPortId := 1,
 	            CatalogNumber := "1734-OB4E/C",
 	            Vendor := 1,
@@ -275,7 +275,7 @@ IE_VER := @IEVER@;</value>
         END_MODULE</value>
   </data>
   <data name="m1734OB8S" xml:space="preserve">
-    <value>	MODULE $NoName (Parent := "_1734_AENTR_@AENTRNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	            ParentModPortId := 1,
 	            CatalogNumber := "1734-OB8S/A",
 	            Vendor := 1,
@@ -295,7 +295,7 @@ IE_VER := @IEVER@;</value>
     END_MODULE</value>
   </data>
   <data name="m1734OE2C" xml:space="preserve">
-    <value>	MODULE $NoName (Parent := "_1734_AENTR_@AENTRNUM@",
+    <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	            ParentModPortId := 1,
 	            CatalogNumber := "1734-OE2C/C",
 	            Vendor := 1,
@@ -317,7 +317,7 @@ IE_VER := @IEVER@;</value>
     END_MODULE</value>
   </data>
   <data name="m1752L72S" xml:space="preserve">
-    <value>	MODULE Local (Parent := "Local",
+    <value>	MODULE @NAME@ (Parent := "Local",
 	              ParentModPortId := 1,
 	              CatalogNumber := "1756-L72S",
 	              Vendor := 1,
@@ -326,7 +326,7 @@ IE_VER := @IEVER@;</value>
 	              Major := 27,
 	              Minor := 11,
 	              PortLabel := "RxBACKPLANE",
-	              ChassisSize := 13,
+	              ChassisSize := @SIZE@,
 	              Slot := @SLOT@,
 	              Mode := 2#0000_0000_0000_0001,
 	              CompatibleModule := 0,
@@ -335,7 +335,7 @@ IE_VER := @IEVER@;</value>
 	END_MODULE</value>
   </data>
   <data name="m1756EN2T" xml:space="preserve">
-    <value>	MODULE ETHERNET_@ETHERNUM@ (Parent := "Local",
+    <value>	MODULE @NAME@ (Parent := "Local",
 	               ParentModPortId := 1,
 	               CatalogNumber := "1756-EN2T",
 	               Vendor := 1,
@@ -345,7 +345,7 @@ IE_VER := @IEVER@;</value>
 	               Minor := 1,
 	               PortLabel := "RxBACKPLANE",
 	               Slot := @SLOT@,
-	               NodeAddress := "192.168.0.1",
+	               NodeAddress := "@IP@",
 	               Mode := 2#0000_0000_0000_0000,
 	               CompatibleModule := 1,
 	               KeyMask := 2#0000_0000_0001_1111)
@@ -355,7 +355,7 @@ IE_VER := @IEVER@;</value>
     END_MODULE</value>
   </data>
   <data name="m1756L71S" xml:space="preserve">
-    <value>CONTROLLER tempName (ProcessorType := "1756-L71S",
+    <value>CONTROLLER @NAME@ (ProcessorType := "1756-L71S",
                     Major := 27,
                     TimeSlice := 20,
                     ShareUnusedTimeSlice := 1,
@@ -386,7 +386,7 @@ IE_VER := @IEVER@;</value>
 	              Major := 27,
 	              Minor := 11,
 	              PortLabel := "RxBACKPLANE",
-	              ChassisSize := 10,
+	              ChassisSize := @SIZE@,
 	              Slot := 0,
 	              Mode := 2#0000_0000_0000_0001,
 	              CompatibleModule := 0,

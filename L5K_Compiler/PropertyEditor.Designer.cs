@@ -84,7 +84,7 @@
             this.ipAddressControl1.Name = "ipAddressControl1";
             this.ipAddressControl1.ReadOnly = false;
             this.ipAddressControl1.Size = new System.Drawing.Size(100, 20);
-            this.ipAddressControl1.TabIndex = 4;
+            this.ipAddressControl1.TabIndex = 3;
             this.ipAddressControl1.Text = "...";
             // 
             // slotTxtBox
@@ -92,7 +92,7 @@
             this.slotTxtBox.Location = new System.Drawing.Point(107, 38);
             this.slotTxtBox.Name = "slotTxtBox";
             this.slotTxtBox.Size = new System.Drawing.Size(100, 20);
-            this.slotTxtBox.TabIndex = 5;
+            this.slotTxtBox.TabIndex = 2;
             // 
             // button1
             // 
