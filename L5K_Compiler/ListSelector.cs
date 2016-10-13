@@ -14,9 +14,9 @@ namespace L5K_Compiler
     public partial class ListSelector : Form
     {
         private string windowName = Form1.typeOfModuleAdded;
-        IOModule cardAdded = null;
+        LocalCard cardAdded = null;
 
-        public ListSelector(List<IOModule> cardList, List<IOModule> cardListADDED, List<string> ioNeedsAdding)
+        public ListSelector(List<LocalCard> cardList, List<LocalCard> cardListADDED, List<string> ioNeedsAdding)
         {
             InitializeComponent();
             this.Text = windowName + " Selector";
@@ -26,15 +26,15 @@ namespace L5K_Compiler
             InitializeList();
         }
 
-        private List<IOModule> _cardList;
-        private List<IOModule> _cardListADDED;
+        private List<LocalCard> _cardList;
+        private List<LocalCard> _cardListADDED;
         private List<string> ioToAdd;
 
         private void InitializeList()
         {
             if (windowName == "Drive")
             {
-                string[] listDrives = { "ACS880", "test" };
+                string[] listDrives = { "ACS880" };
                 listBox1.Items.AddRange(listDrives);
                 listBox1.SelectionMode = SelectionMode.One;
             }
@@ -47,7 +47,7 @@ namespace L5K_Compiler
                     this.Close();
                     listBox1.SelectionMode = SelectionMode.MultiExtended;
                 }
-                foreach (IOModule card in _cardList)
+                foreach (LocalCard card in _cardList)
                 {
                     cardAdded = card;
                     listBox1.Items.Add(card.name);
@@ -55,13 +55,13 @@ namespace L5K_Compiler
             }
             else if (windowName == "Local Card")
             {
-                string[] listLocals = { "1756-EN2T", "test" };
+                string[] listLocals = { "1756-EN2T" };
                 listBox1.Items.AddRange(listLocals);
                 listBox1.SelectionMode = SelectionMode.One;
             }
             else if (windowName == "Processor")
             {
-                string[] listProcessors = { "1756-L71S", "test" };
+                string[] listProcessors = { "1756-L71S" };
                 listBox1.Items.AddRange(listProcessors);
                 listBox1.SelectionMode = SelectionMode.One;
             }
@@ -91,8 +91,8 @@ namespace L5K_Compiler
             }
             if (cardAdded != null)
             {
-                IOModule removedCard = null;
-                foreach (IOModule card in _cardList)
+                LocalCard removedCard = null;
+                foreach (LocalCard card in _cardList)
                 {
                     if (selectedItem.ToString() == card.name)
                         removedCard = card;

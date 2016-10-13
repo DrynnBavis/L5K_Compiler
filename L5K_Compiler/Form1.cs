@@ -35,8 +35,9 @@ namespace L5K_Compiler
         //    to be changed for future modules. So the corrected version will look like this:
         //    "	MODULE _xxxx_01M02 (Description := ""~"",. This is the character that will be find-and-replaced with the
         //    values from the excel document.
-        public List<IOModule> ioList = new List<IOModule>();
-        public List<IOModule> ioListADDED = new List<IOModule>();
+        public List<LocalCard> ioList = new List<LocalCard>();
+        public List<LocalCard> ioListADDED = new List<LocalCard>();
+        public List<LocalCard> extractedCards = new List<LocalCard>();
         int[] numMods = Enumerable.Repeat(1, 1000).ToArray();
         public ContextMenuStrip procRightClick;
         public ContextMenuStrip localRightClick;
@@ -54,6 +55,7 @@ namespace L5K_Compiler
         static public int chassisSize;
         static public bool chassisSizeSelected = false;
         static public bool processorSelected = false;
+        public string IOModuleUsed = null;
 
         public Form1()
         {
@@ -135,7 +137,6 @@ namespace L5K_Compiler
                     var tag = tn.Tag as LocalCard;
                     tag.type = "local";
                     treeIO.SelectedNode.Expand();
-                    simulatePropertiesClick();
                 }
             }
             else
@@ -154,7 +155,6 @@ namespace L5K_Compiler
                 procTag.type = "proc";
                 treeIO.SelectedNode.Text = "[0]" + selectedModule;
                 processorSelected = true;
-                simulatePropertiesClick();
             }
         }
         // Local
@@ -167,7 +167,6 @@ namespace L5K_Compiler
             if (confirmedAdd)
             {
                 treeIO.SelectedNode.Text = "[?]" + selectedModule;
-                simulatePropertiesClick();
             }
         }
 
@@ -210,6 +209,8 @@ namespace L5K_Compiler
                 tn.Tag = new LocalCard();
                 var tag = tn.Tag as LocalCard;
                 tag.type = "ioBlock";
+                    tag.name = ioBlock;
+                    tn.Text = "1734-AENTR " + tag.name;
                 treeIO.SelectedNode.Expand();
                 }
                 ioToAdd.Clear();
@@ -219,42 +220,37 @@ namespace L5K_Compiler
         void delete_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
-            var tag = treeIO.SelectedNode.Tag as LocalCard;
+            simulateDelete(treeIO.SelectedNode);
+        }
+
+        void simulateDelete(TreeNode nodeToDelete)
+        {
+            var tag = nodeToDelete.Tag as LocalCard;
             if (tag.type == "ioBlock") //updates lists of used/unused io modules
             {
-                IOModule cardToBeSwapped = null;
-                foreach (IOModule card in ioListADDED)
+                LocalCard cardToBeSwapped = null;
+                foreach (LocalCard card in ioListADDED)
                 {
-                    if (treeIO.SelectedNode.Text == card.name)
+                    if (tag.name == card.name)
                         cardToBeSwapped = card;
                 }
                 ioListADDED.Remove(cardToBeSwapped);
                 ioList.Add(cardToBeSwapped);
             }
-            treeIO.Nodes.Remove(treeIO.SelectedNode);
+            else if (tag.type == "local")
+            {
+                while (nodeToDelete.Nodes.Count != 0)
+                {
+                    simulateDelete(nodeToDelete.Nodes[0]);
+                }
+                localSlots[Convert.ToInt32(tag.slot)] = false;
+            }
+            treeIO.Nodes.Remove(nodeToDelete);
         }
 
         void properties_Click(object sender, EventArgs e)
         {
             ToolStripItem clickedItem = sender as ToolStripItem;
-            currentNode = treeIO.SelectedNode;
-            var properties = currentNode.Tag as LocalCard;
-            PropertyEditor editor = new PropertyEditor();
-            if (confirmedAdd)
-            {
-                editor.ShowDialog();
-                if (confirmedEdit)
-                {
-                    if (currentNode.Level == 2)
-                        currentNode.Text = selectedModule + " " + properties.name;
-                    else
-                        currentNode.Text = "[" + properties.slot + "]" + selectedModule + " " + properties.name;
-                }
-            }
-        }
-
-        void simulatePropertiesClick()
-        {
             currentNode = treeIO.SelectedNode;
             var properties = currentNode.Tag as LocalCard;
             PropertyEditor editor = new PropertyEditor();
@@ -292,14 +288,15 @@ namespace L5K_Compiler
             }
         }
 
-        public void PrintNodesRecursive(TreeNode oParentNode)
+        public void ExtractNodesRecursive(TreeNode oParentNode)
         {
-            MessageBox.Show(oParentNode.Text);
+            var properties = oParentNode.Tag as LocalCard;
+            extractedCards.Add(properties);
 
             // Start recursion on all subnodes.
             foreach (TreeNode oSubNode in oParentNode.Nodes)
             {
-                PrintNodesRecursive(oSubNode);
+                ExtractNodesRecursive(oSubNode);
             }
         }
 
@@ -426,7 +423,7 @@ namespace L5K_Compiler
                         {
                             x++;
                         }
-                        ioList.Add(new IOModule { name = (string)(ws.Cells[x, panelNameColumn] as Excel.Range).Value });
+                        ioList.Add(new LocalCard { name = (string)(ws.Cells[x, panelNameColumn] as Excel.Range).Value });
                         countAENTR++;
                         i++;
                     }
@@ -439,20 +436,22 @@ namespace L5K_Compiler
                 importExcelBtn.Enabled = true;
             }
         }
-        /*
+
         private void CompileL5K()
         {
             int modSlotCount = 0;
             int aentrCount = 0;
             int etrCount = 0;
-            if (!moduleList.Any())
+            extractedCards.Clear();
+            ExtractNodesRecursive(treeIO.Nodes[0]);
+            if (!extractedCards.Any())
             {
-                MessageBox.Show("Error no data had been loaded yet! Please import a properly formatted excel document and try again!", "Error Empty Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error no data had been loaded yet! Please create a tree to compile first.", "Error Empty Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (string.IsNullOrWhiteSpace(panelNameBox.Text) || string.IsNullOrWhiteSpace(plcModuleBox.Text) || string.IsNullOrWhiteSpace(chassisDropSelect.Text))
             {
-                MessageBox.Show("Please ensure all boxes are filled properly\n and that the IE version is valid.");
+                MessageBox.Show("Please ensure all boxes are filled properly\n before compiling.");
                 return;
             }
             string fileName = Microsoft.VisualBasic.Interaction.InputBox("Please enter a name for the L5K file:",
@@ -467,11 +466,11 @@ namespace L5K_Compiler
             finalOutput += Environment.NewLine;
             SplashScreen.ShowSplashScreen();
             SplashScreen.SetStatus("Compiling your file. Please wait...");
-            int numCards = moduleList.Count;
-            while (moduleList.Any())
+            int numCards = extractedCards.Count;
+            while (extractedCards.Any())
             {
-                SplashScreen.SetProgress((int)((numCards - moduleList.Count) * 100.00 / numCards));
-                if (moduleList[0].name.Contains("1756"))
+                SplashScreen.SetProgress((int)((numCards - extractedCards.Count) * 100.00 / numCards));
+                if (extractedCards[0].name.Contains("EN2T"))
                 {
                     etrCount++;
                     string newCard = Cards.m1756EN2T.Replace("@SLOT@", etrCount.ToString());
@@ -479,10 +478,10 @@ namespace L5K_Compiler
                     finalOutput = finalOutput + newCard;
                     finalOutput += Environment.NewLine;
                     finalOutput += Environment.NewLine;
-                    moduleList.RemoveAt(0);
+                    extractedCards.RemoveAt(0);
                     modSlotCount = 0;
                 }
-                else if (moduleList[0].name.Contains("AENTR"))
+                else if (extractedCards[0].name.Contains("AENTR"))
                 {
                     aentrCount++;
                     modSlotCount = 0;
@@ -493,79 +492,79 @@ namespace L5K_Compiler
                     finalOutput = finalOutput + newCard;
                     finalOutput += Environment.NewLine;
                     finalOutput += Environment.NewLine;
-                    moduleList.RemoveAt(0);
+                    extractedCards.RemoveAt(0);
                     modSlotCount++;
                 }
-                while (moduleList.Any() && !moduleList[0].name.Contains("AENTR") && !moduleList[0].name.Contains("1756"))
+                while (extractedCards.Any() && !extractedCards[0].name.Contains("AENTR") && !extractedCards[0].name.Contains("1756"))
                 {
-                    if (moduleList[0].name == "1734-IB8S")
+                    if (extractedCards[0].name == "1734-IB8S")
                     {
                         string newCard = Cards.m1734IB8S.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
                         finalOutput += Environment.NewLine;
-                        moduleList.RemoveAt(0);
+                        extractedCards.RemoveAt(0);
                         modSlotCount++;
                     }
-                    else if (moduleList[0].name == "1734-OB8S")
+                    else if (extractedCards[0].name == "1734-OB8S")
                     {
                         string newCard = Cards.m1734OB8S.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
                         finalOutput += Environment.NewLine;
-                        moduleList.RemoveAt(0);
+                        extractedCards.RemoveAt(0);
                         modSlotCount++;
                     }
-                    else if (moduleList[0].name == "1734-IB4D")
+                    else if (extractedCards[0].name == "1734-IB4D")
                     {
                         string newCard = Cards.m1734IB4D.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
                         finalOutput += Environment.NewLine;
-                        moduleList.RemoveAt(0);
+                        extractedCards.RemoveAt(0);
                         modSlotCount++;
                     }
-                    else if (moduleList[0].name == "1734-OB4E")
+                    else if (extractedCards[0].name == "1734-OB4E")
                     {
                         string newCard = Cards.m1734OB4E.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
                         finalOutput += Environment.NewLine;
-                        moduleList.RemoveAt(0);
+                        extractedCards.RemoveAt(0);
                         modSlotCount++;
                     }
-                    else if (moduleList[0].name == "1734-IE2C")
+                    else if (extractedCards[0].name == "1734-IE2C")
                     {
                         string newCard = Cards.m1734IE2C.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
                         finalOutput += Environment.NewLine;
-                        moduleList.RemoveAt(0);
+                        extractedCards.RemoveAt(0);
                         modSlotCount++;
                     }
-                    else if (moduleList[0].name == "1734-OE2C")
+                    else if (extractedCards[0].name == "1734-OE2C")
                     {
                         string newCard = Cards.m1734OE2C.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
                         finalOutput += Environment.NewLine;
-                        moduleList.RemoveAt(0);
+                        extractedCards.RemoveAt(0);
                         modSlotCount++;
                     }
-                    else if (moduleList[0].name == "1734-IR2")
+                    else if (extractedCards[0].name == "1734-IR2")
                     {
                         string newCard = Cards.m1734IR2.Replace("@SLOT@", modSlotCount.ToString());
                         newCard = newCard.Replace("@AENTRNUM@", aentrCount.ToString());
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
                         finalOutput += Environment.NewLine;
-                        moduleList.RemoveAt(0);
+                        extractedCards.RemoveAt(0);
                         modSlotCount++;
                     }
                 }
@@ -573,7 +572,7 @@ namespace L5K_Compiler
             finalOutput += Cards.tail;
             File.WriteAllText(outputPath + fileName + ".l5k", finalOutput);
             SplashScreen.CloseForm();
-        }*/
+        }
 
         static Form1 frm1 = new Form1();
         static public void SetModule(string newModule)
@@ -606,7 +605,7 @@ namespace L5K_Compiler
 
         private void commitTreeBtn_Click(object sender, EventArgs e)
         {
-            PrintNodesRecursive(treeIO.Nodes[0]);
+            ExtractNodesRecursive(treeIO.Nodes[0]);
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -662,14 +661,9 @@ namespace L5K_Compiler
         public string[] address = new string[8];
     }
 
-    public class IOModule
-    {
-        public List<Module> moduleList = new List<Module>();
-        public string name = null;
-    }
-
     public class LocalCard
     {
+        public List<Module> moduleList = new List<Module>();
         public string type = null;
         public string name = null;
         public int? slot = null;

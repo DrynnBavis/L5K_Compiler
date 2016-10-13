@@ -34,20 +34,29 @@ namespace L5K_Compiler
             else if (properties.type == "proc")
             {
                 nameTxtBox.Enabled = true;
+                nameLbl.Enabled = true;
                 slotTxtBox.Enabled = false;
+                slotLbl.Enabled = false;
                 ipAddressControl1.Enabled = false;
+                ipLbl.Enabled = false;
             }
             else if (properties.type == "local")
             {
                 nameTxtBox.Enabled = true;
+                nameLbl.Enabled = true;
                 slotTxtBox.Enabled = true;
+                slotLbl.Enabled = true;
                 ipAddressControl1.Enabled = true;
+                ipLbl.Enabled = true;
             }
-            else if (properties.type == "drive")
+            else if (properties.type == "drive" || properties.type == "ioBlock")
             {
                 nameTxtBox.Enabled = true;
+                nameLbl.Enabled = true;
                 slotTxtBox.Enabled = false;
+                slotLbl.Enabled = false;
                 ipAddressControl1.Enabled = true;
+                ipLbl.Enabled = true;
             }
             if (nameTxtBox.Enabled)
             {
