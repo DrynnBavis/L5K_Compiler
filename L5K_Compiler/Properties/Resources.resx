@@ -274,6 +274,27 @@ IE_VER := @IEVER@;</value>
             OutputAliasComments(RADIX := Binary);
         END_MODULE</value>
   </data>
+  <data name="m1734OB8E" xml:space="preserve">
+    <value>MODULE @NAME@ (Parent := "@PARENT@",
+	            ParentModPortId := 1,
+	            CatalogNumber := "1734-OB8E/C",
+	            Vendor := 1,
+	            ProductType := 7,
+	            ProductCode := 218,
+	            Major := 3,
+	            Minor := 1,
+	            PortLabel := "RxBACKPLANE",
+	            Slot := @SLOT@,
+	            CommMethod := 1073741824,
+	            Mode := 2#0000_0000_0000_0000,
+	            CompatibleModule := 1,
+	            KeyMask := 2#0000_0000_0001_1111)
+			ExtendedProp := [[[___&lt;public&gt;&lt;ConfigID&gt;262157&lt;/ConfigID&gt;&lt;/public&gt;___]]]
+			ConfigData  := [16,123,1,0,0,0,0,-1,0,0,0];
+			InputAliasComments (RADIX := Binary);
+			OutputAliasComments (RADIX := Binary);
+	END_MODULE</value>
+  </data>
   <data name="m1734OB8S" xml:space="preserve">
     <value>	MODULE @NAME@ (Parent := "@PARENT@",
 	            ParentModPortId := 1,
@@ -387,7 +408,7 @@ IE_VER := @IEVER@;</value>
 	              Minor := 11,
 	              PortLabel := "RxBACKPLANE",
 	              ChassisSize := @SIZE@,
-	              Slot := 0,
+	              Slot := @SLOT@,
 	              Mode := 2#0000_0000_0000_0001,
 	              CompatibleModule := 0,
 	              KeyMask := 2#0000_0000_0001_1111,
@@ -575,9 +596,9 @@ IE_VER := @IEVER@;</value>
 	END_MODULE"</value>
   </data>
   <data name="mPowerFlex755" xml:space="preserve">
-    <value>@"	MODULE _xxxx_01M05 (Description := ""CIP Control"",
+    <value>	MODULE @NAME@ (Description := "@DESC@",
 
-                        Parent := ""Drives"",
+                        Parent := "@PARENT@",
 	                    ParentModPortId := 2,
 	                    Vendor := 1,
 	                    ProductType := 37,
@@ -585,25 +606,15 @@ IE_VER := @IEVER@;</value>
 	                    Major := 3,
 	                    Minor := 1,
 	                    PortLabel := ""ENet"",
-	                    NodeAddress := ""192.168.0.5"",
+	                    NodeAddress := "@IP@",
 	                    Mode := 2#0000_0000_0000_0000,
 	                    CompatibleModule := 0,
 	                    KeyMask := 2#0000_0000_0000_0000)
 			ExtendedProp := [[[___&lt;public&gt;&lt;ConfigID&gt;101&lt;/ConfigID&gt;&lt;FeedbackDevice1&gt;1&lt;/FeedbackDevice1&gt;&lt;FeedbackDevice2&gt;2&lt;/FeedbackDevice2&gt;&lt;/public&gt;___]]]
 			ConfigData := [224,1,257,8,11158631,0,10000,16908804,0,1,-65536,1120403456,1045220557,0,0,0,0,1120403456,0,1120403456
 		,0,1109393408,2,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8192004,8192125,67305985,0,0,0,0,0,0,0];
-			CONNECTION MotionDiagnostics(Rate := 1000,
-                                          EventID := 0)
 
-                    InputData(Class := Standard) := [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-			END_CONNECTION
-
-            CONNECTION MotionSync(Rate := 2000,
-                                   EventID := 0)
-
-            END_CONNECTION
-
-    END_MODULE"</value>
+    END_MODULE</value>
   </data>
   <data name="mPowerFlex755EENETCM" xml:space="preserve">
     <value>@"	MODULE _xxxx_xxMxx (Description := ""FS Length Adj LH"",

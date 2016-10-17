@@ -186,7 +186,15 @@ namespace L5K_Compiler.Properties {
                 return ResourceManager.GetString("m1734IB8S", resourceCulture);
             }
         }
-        
+
+        internal static string m1734OB8E
+        {
+            get
+            {
+                return ResourceManager.GetString("m1734OB8E", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to 	MODULE $NoName (Parent := &quot;@PARENT@&quot;,
         ///	            ParentModPortId := 1,

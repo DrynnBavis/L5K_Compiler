@@ -40,7 +40,8 @@
             this.plcModuleBox = new System.Windows.Forms.TextBox();
             this.savePathLbl = new System.Windows.Forms.Label();
             this.treeIO = new System.Windows.Forms.TreeView();
-            this.commitTreeBtn = new System.Windows.Forms.Button();
+            this.dupeDriveBtn = new System.Windows.Forms.Button();
+            this.showMissingCardsBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // importExcelBtn
@@ -162,22 +163,33 @@
             this.treeIO.TabIndex = 14;
             this.treeIO.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeIO_NodeMouseClick);
             // 
-            // commitTreeBtn
+            // dupeDriveBtn
             // 
-            this.commitTreeBtn.Location = new System.Drawing.Point(240, 349);
-            this.commitTreeBtn.Name = "commitTreeBtn";
-            this.commitTreeBtn.Size = new System.Drawing.Size(75, 23);
-            this.commitTreeBtn.TabIndex = 15;
-            this.commitTreeBtn.Text = "Commit Tree";
-            this.commitTreeBtn.UseVisualStyleBackColor = true;
-            this.commitTreeBtn.Click += new System.EventHandler(this.commitTreeBtn_Click);
+            this.dupeDriveBtn.Location = new System.Drawing.Point(240, 349);
+            this.dupeDriveBtn.Name = "dupeDriveBtn";
+            this.dupeDriveBtn.Size = new System.Drawing.Size(109, 23);
+            this.dupeDriveBtn.TabIndex = 15;
+            this.dupeDriveBtn.Text = "Duplicate Drive";
+            this.dupeDriveBtn.UseVisualStyleBackColor = true;
+            this.dupeDriveBtn.Click += new System.EventHandler(this.commitTreeBtn_Click);
+            // 
+            // showMissingCardsBtn
+            // 
+            this.showMissingCardsBtn.Location = new System.Drawing.Point(240, 320);
+            this.showMissingCardsBtn.Name = "showMissingCardsBtn";
+            this.showMissingCardsBtn.Size = new System.Drawing.Size(109, 23);
+            this.showMissingCardsBtn.TabIndex = 16;
+            this.showMissingCardsBtn.Text = "View Missed Cards";
+            this.showMissingCardsBtn.UseVisualStyleBackColor = true;
+            this.showMissingCardsBtn.Click += new System.EventHandler(this.showMissingCardsBtn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(517, 431);
-            this.Controls.Add(this.commitTreeBtn);
+            this.Controls.Add(this.showMissingCardsBtn);
+            this.Controls.Add(this.dupeDriveBtn);
             this.Controls.Add(this.treeIO);
             this.Controls.Add(this.savePathLbl);
             this.Controls.Add(this.plcModuleBox);
@@ -190,8 +202,10 @@
             this.Controls.Add(this.compileBtn);
             this.Controls.Add(this.changePathBtn);
             this.Controls.Add(this.importExcelBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::L5K_Compiler.Properties.Resources.icon;
             this.Margin = new System.Windows.Forms.Padding(1);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Gyptech L5K Compiler";
             this.ResumeLayout(false);
@@ -212,8 +226,9 @@
         private System.Windows.Forms.TextBox panelNameBox;
         private System.Windows.Forms.TextBox plcModuleBox;
         private System.Windows.Forms.Label savePathLbl;
-        private System.Windows.Forms.Button commitTreeBtn;
+        private System.Windows.Forms.Button dupeDriveBtn;
         public System.Windows.Forms.TreeView treeIO;
+        private System.Windows.Forms.Button showMissingCardsBtn;
     }
 }
 

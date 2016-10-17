@@ -73,6 +73,12 @@
     <Compile Include="ListSelector.Designer.cs">
       <DependentUpon>ListSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="listView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="listView.Designer.cs">
+      <DependentUpon>listView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyEditor.cs">
@@ -93,9 +99,13 @@
     <EmbeddedResource Include="ListSelector.resx">
       <DependentUpon>ListSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="listView.resx">
+      <DependentUpon>listView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

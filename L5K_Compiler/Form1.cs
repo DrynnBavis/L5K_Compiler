@@ -57,6 +57,8 @@ namespace L5K_Compiler
         static public bool chassisSizeSelected = false;
         static public bool processorSelected = false;
         public string IOModuleUsed = null;
+        List<string> missingCards = new List<string>();
+        string cardsNotAddedString;
 
         public Form1()
         {
@@ -227,16 +229,29 @@ namespace L5K_Compiler
             {
                 foreach (string ioBlock in ioToAdd)
                 {
-                TreeNode tn = treeIO.SelectedNode.Nodes.Add(ioBlock);
+                    TreeNode tn = treeIO.SelectedNode.Nodes.Add(ioBlock);
+                    treeIO.ShowNodeToolTips = true;
                     var parent = treeIO.SelectedNode.Tag as LocalCard;
-                tn.Tag = new LocalCard();
-                var tag = tn.Tag as LocalCard;
-                tag.type = "ioBlock";
+                    tn.Tag = new LocalCard();
+                    var tag = tn.Tag as LocalCard;
+                    tag.type = "ioBlock";
                     tag.name = ioBlock;
                     tag.code = IOModuleUsed;
                     tag.parent = parent.name;
+                    foreach (LocalCard ioMod in ioListADDED)
+                    {
+                        if (tag.name == ioMod.name)
+                            tag.moduleList = ioMod.moduleList;
+                    }
+                    foreach (Module ioCard in tag.moduleList)
+                    {
+                        if (tn.ToolTipText == "")
+                            tn.ToolTipText += ioCard.code;
+                        else
+                            tn.ToolTipText += "\n" + ioCard.code;
+                    }
                     tn.Text = "1734-AENTR " + tag.name;
-                treeIO.SelectedNode.Expand();
+                   treeIO.SelectedNode.Expand();
                 }
                 ioToAdd.Clear();
             }
@@ -452,6 +467,16 @@ namespace L5K_Compiler
                             cardCount++;
                             numMods[countAENTR]++;
                         }
+                        else if (cardName == "1734-OB8E")
+                        {
+                            ioList[countAENTR - 1].moduleList.Add(new Module { type = "1734-OB8E", name = ws.Cells[i, plcModuleColumn + 3].value, slot = cardCount, code = cardName });
+                            cardCount++;
+                            numMods[countAENTR]++;
+                        }
+                        else if (cardName.Contains("1734") && cardName != IOModuleUsed && cardName != "1734-CTM" && cardName != "1734-EP24DC" && cardName != "1734-FPD")
+                        {
+                            missingCards.Add("IO Module: " + ws.Cells[i, panelNameColumn].value + " Card: " + cardName + " Address: " + ws.Cells[i, plcModuleColumn + 4].value + "\n");
+                        }
                         i++;
                     }
                     if (i <= numRows && cardName == IOModuleUsed)
@@ -515,10 +540,7 @@ namespace L5K_Compiler
                             foreach (Module ioCard in ioBlock.moduleList)
                             {
                                 ioCardCount++;
-                                string name = ioBlock.name + "_";
-                                if (ioCardCount > 10) //ensures the number being added is 2 digits long for single digit numbers
-                                    name += "0";
-                                name += ioCardCount;
+                                string name = ioBlock.name + "_" + ioCardCount;
                                 cardsForOutput.Add(new LocalCard { code = ioCard.code, type = ioCard.type, name = name, parent = ioBlock.name});
                             }
                         }
@@ -550,8 +572,13 @@ namespace L5K_Compiler
                     if (cardsForOutput[0].name != null)
                         finalOutput = finalOutput.Replace("@NAME@", cardsForOutput[0].name);
                     else
-                        finalOutput = finalOutput.Replace("@NAME@", "");
+                        finalOutput = finalOutput.Replace("@NAME@", "DefaultName");
+                    if (cardsForOutput[0].slot != null)
+                        finalOutput = finalOutput.Replace("@SLOT@", cardsForOutput[0].slot.ToString());
+                    else
+                        finalOutput = finalOutput.Replace("@SLOT@", "0");
                     cardsForOutput.RemoveAt(0);
+
                 }
             }
             catch
@@ -616,7 +643,7 @@ namespace L5K_Compiler
                     else if (cardsForOutput[0].code == "1734-IB8S")
                     {
                         string newCard = Cards.m1734IB8S.Replace("@PARENT@", cardsForOutput[0].parent);
-                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2));
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_", ""));
                         newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
@@ -627,7 +654,7 @@ namespace L5K_Compiler
                     else if (cardsForOutput[0].code == "1734-OB8S")
                     {
                         string newCard = Cards.m1734OB8S.Replace("@PARENT@", cardsForOutput[0].parent);
-                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2));
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_", ""));
                         newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
@@ -638,7 +665,7 @@ namespace L5K_Compiler
                     else if (cardsForOutput[0].code == "1734-IB4D")
                     {
                         string newCard = Cards.m1734IB4D.Replace("@PARENT@", cardsForOutput[0].parent);
-                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2));
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_", ""));
                         newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
@@ -649,7 +676,7 @@ namespace L5K_Compiler
                     else if (cardsForOutput[0].code == "1734-OB4E")
                     {
                         string newCard = Cards.m1734OB4E.Replace("@PARENT@", cardsForOutput[0].parent);
-                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2));
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_", ""));
                         newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
@@ -660,7 +687,7 @@ namespace L5K_Compiler
                     else if (cardsForOutput[0].code == "1734-IE2C")
                     {
                         string newCard = Cards.m1734IE2C.Replace("@PARENT@", cardsForOutput[0].parent);
-                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2));
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_", ""));
                         newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
@@ -671,7 +698,7 @@ namespace L5K_Compiler
                     else if (cardsForOutput[0].code == "1734-OE2C")
                     {
                         string newCard = Cards.m1734OE2C.Replace("@PARENT@", cardsForOutput[0].parent);
-                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2));
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_", ""));
                         newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
@@ -682,7 +709,18 @@ namespace L5K_Compiler
                     else if (cardsForOutput[0].code == "1734-IR2")
                     {
                         string newCard = Cards.m1734IR2.Replace("@PARENT@", cardsForOutput[0].parent);
-                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2));
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_", ""));
+                        newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
+                        finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
+                        cardsForOutput.RemoveAt(0);
+                        modSlotCount++;
+                    }
+                    else if (cardsForOutput[0].code == "1734-OB8E")
+                    {
+                        string newCard = Cards.m1734OB8E.Replace("@PARENT@", cardsForOutput[0].parent);
+                        newCard = newCard.Replace("@SLOT@", cardsForOutput[0].name.Substring(cardsForOutput[0].name.Length - 2).Replace("_",""));
                         newCard = newCard.Replace("@NAME@", cardsForOutput[0].name);
                         finalOutput = finalOutput + newCard;
                         finalOutput += Environment.NewLine;
@@ -696,6 +734,11 @@ namespace L5K_Compiler
             File.WriteAllText(outputPath + fileName + ".l5k", finalOutput);
             SplashScreen.CloseForm();
             MessageBox.Show("compilation done!");
+            if (missingCards.Any())
+            {
+                listView cardLoader = new listView(missingCards);
+                cardLoader.Show();
+            }
         }
 
         static Form1 frm1 = new Form1();
@@ -718,6 +761,13 @@ namespace L5K_Compiler
         {
             extractExcelData();
         }
+
+        private void showMissingCardsBtn_Click(object sender, EventArgs e)
+        {
+            listView cardLoader = new listView(missingCards);
+            cardLoader.Show();
+        }
+
         private void numberOnly_KeyPress(object sender, KeyPressEventArgs e) //event only allows numbers
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
@@ -781,9 +831,6 @@ namespace L5K_Compiler
         public string name = null;
         public string code = null;
         public int? slot = null;
-        public string[] chdesc = new string[8];
-        public string[] tag = new string[8];
-        public string[] address = new string[8];
     }
 
     public class LocalCard

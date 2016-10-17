@@ -35,8 +35,8 @@ namespace L5K_Compiler
             {
                 nameTxtBox.Enabled = true;
                 nameLbl.Enabled = true;
-                slotTxtBox.Enabled = false;
-                slotLbl.Enabled = false;
+                slotTxtBox.Enabled = true;
+                slotLbl.Enabled = true;
                 ipAddressControl1.Enabled = false;
                 ipLbl.Enabled = false;
             }
@@ -118,7 +118,7 @@ namespace L5K_Compiler
                 {
                     ipIsOkay = true;
                 }
-                bool procIsOkay = (nameTxtBox.Enabled && nameIsOkay);
+                bool procIsOkay = (nameTxtBox.Enabled && nameIsOkay && slotTxtBox.Enabled && slotIsOkay);
                 bool localIsOkay = (nameTxtBox.Enabled && slotTxtBox.Enabled && ipAddressControl1.Enabled && nameIsOkay && slotIsOkay && ipIsOkay);
                 bool driveIsOkay = (nameTxtBox.Enabled && ipAddressControl1.Enabled && nameIsOkay && ipIsOkay);
                 if (procIsOkay || localIsOkay || driveIsOkay)
