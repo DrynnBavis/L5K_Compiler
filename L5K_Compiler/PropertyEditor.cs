@@ -70,6 +70,10 @@ namespace L5K_Compiler
             {
                 ipAddressControl1.Text = properties.ipAddress;
             }
+            if(descLbl.Enabled)
+            {
+                descLbl.Text = properties.desc;
+            }
             Form1.confirmedAdd = true;
         }
 
@@ -101,9 +105,7 @@ namespace L5K_Compiler
                 if (slotTxtBox.Enabled)
                 {
                     newSlotNumber = Convert.ToInt32(slotTxtBox.Text);
-                    if (newSlotNumber == 0)
-                        MessageBox.Show("Error: Slot 0 is reserved for processor.", "Invalid Entry", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else if (Form1.localSlots[newSlotNumber] == false && (newSlotNumber < Form1.chassisSize && newSlotNumber >= 1))
+                    if (Form1.localSlots[newSlotNumber] == false && (newSlotNumber < Form1.chassisSize && newSlotNumber >= 1))
                     {
                         slotIsOkay = true;
                     }
@@ -126,12 +128,14 @@ namespace L5K_Compiler
                 if (procIsOkay && properties.type == "proc")
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
+                    properties.desc = descLbl.Text;
                     this.Close();
                 }
                 else if (localIsOkay && properties.type == "local")
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
                     properties.ipAddress = ipAddressControl1.Text;
+                    properties.desc = descLbl.Text;
                     if (properties.slot != null)
                         Form1.localSlots[Convert.ToInt32(properties.slot)] = false;
                     Form1.localSlots[newSlotNumber] = true;
@@ -143,6 +147,7 @@ namespace L5K_Compiler
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
                     properties.ipAddress = ipAddressControl1.Text;
+                    properties.desc = descLbl.Text;
                     if (properties.slot != null)
                         Form1.localSlots[Convert.ToInt32(properties.slot)] = false;
                     Form1.localSlots[newSlotNumber] = true;

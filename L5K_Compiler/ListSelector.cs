@@ -34,7 +34,7 @@ namespace L5K_Compiler
         {
             if (windowName == "Drive")
             {
-                string[] listDrives = { "ACS880" };
+                string[] listDrives = { "PowerFlex 753-ENETR" , "PowerFlex 525-EENET" };
                 listBox1.Items.AddRange(listDrives);
                 listBox1.SelectionMode = SelectionMode.One;
             }
@@ -61,7 +61,7 @@ namespace L5K_Compiler
             }
             else if (windowName == "Processor")
             {
-                string[] listProcessors = { "1756-L71S" };
+                string[] listProcessors = { "1756-L71S", "1756-L72S" };
                 listBox1.Items.AddRange(listProcessors);
                 listBox1.SelectionMode = SelectionMode.One;
             }

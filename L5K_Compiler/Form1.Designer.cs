@@ -171,7 +171,7 @@
             this.dupeDriveBtn.TabIndex = 15;
             this.dupeDriveBtn.Text = "Duplicate Drive";
             this.dupeDriveBtn.UseVisualStyleBackColor = true;
-            this.dupeDriveBtn.Click += new System.EventHandler(this.commitTreeBtn_Click);
+            this.dupeDriveBtn.Click += new System.EventHandler(this.dupeDriveBtn_Click);
             // 
             // showMissingCardsBtn
             // 

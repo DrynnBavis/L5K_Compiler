@@ -141,6 +141,8 @@ namespace L5K_Compiler
                     tag.type = "local";
                     tag.code = selectedModule;
                     treeIO.SelectedNode.Expand();
+                    treeIO.SelectedNode = tn;
+                    treeIO.Focus();
                 }
             }
             else
@@ -206,6 +208,8 @@ namespace L5K_Compiler
                 tag.type = "drive";
                 tag.parent = parent.name;
                 tag.code = selectedModule;
+                treeIO.SelectedNode = tn;
+                treeIO.Focus();
                 treeIO.SelectedNode.Expand();
             }
         }
@@ -250,6 +254,8 @@ namespace L5K_Compiler
                         else
                             tn.ToolTipText += "\n" + ioCard.code;
                     }
+                    treeIO.SelectedNode = tn;
+                    treeIO.Focus();
                     tn.Text = "1734-AENTR " + tag.name;
                    treeIO.SelectedNode.Expand();
                 }
@@ -578,7 +584,19 @@ namespace L5K_Compiler
                     else
                         finalOutput = finalOutput.Replace("@SLOT@", "0");
                     cardsForOutput.RemoveAt(0);
-
+                }
+                else if (cardsForOutput[0].code == "1756-L72S")
+                {
+                    finalOutput += Cards.m1756L72S.Replace("@SIZE@", chassisSize.ToString());
+                    if (cardsForOutput[0].name != null)
+                        finalOutput = finalOutput.Replace("@NAME@", cardsForOutput[0].name);
+                    else
+                        finalOutput = finalOutput.Replace("@NAME@", "DefaultName");
+                    if (cardsForOutput[0].slot != null)
+                        finalOutput = finalOutput.Replace("@SLOT@", cardsForOutput[0].slot.ToString());
+                    else
+                        finalOutput = finalOutput.Replace("@SLOT@", "0");
+                    cardsForOutput.RemoveAt(0);
                 }
             }
             catch
@@ -595,29 +613,79 @@ namespace L5K_Compiler
             while (cardsForOutput.Any())
             {
                 SplashScreen.SetProgress((int)((numCards - cardsForOutput.Count) * 100.00 / numCards));
-                if (cardsForOutput[0].code.Contains("AENTR"))
+                if (cardsForOutput[0].code == IOModuleUsed)
                 {
                     aentrCount++;
                     string replaceSLOT = "";
                     string replaceNAME = "";
                     string replaceIP = "192.168.0.1";
+                    string replacedesc = "";
                     if (cardsForOutput[0].slot != null)
                         replaceSLOT = cardsForOutput[0].slot.ToString();
                     if (cardsForOutput[0].name != null)
                         replaceNAME = cardsForOutput[0].name;
                     if (cardsForOutput[0].ipAddress != null)
                         replaceIP = cardsForOutput[0].ipAddress;
+                    if (cardsForOutput[0].desc != null)
+                        replacedesc = cardsForOutput[0].desc;
                     string newCard = Cards.m1734AENTR.Replace("@SLOT@", replaceSLOT);
                     newCard = newCard.Replace("@SIZE@", numMods[aentrCount].ToString()); //hopefully this count still works?
                     newCard = newCard.Replace("@NAME@", replaceNAME);
                     newCard = newCard.Replace("@IP@", replaceIP);
                     newCard = newCard.Replace("@PARENT@", cardsForOutput[0].parent);
+                    newCard = newCard.Replace("@DESC@", replacedesc);
                     finalOutput = finalOutput + newCard;
                     finalOutput += Environment.NewLine;
                     finalOutput += Environment.NewLine;
                     cardsForOutput.RemoveAt(0);
                 }
-                while (cardsForOutput.Any() && cardsForOutput[0].code != IOModuleUsed)
+                else if (cardsForOutput[0].code == "PowerFlex 525-EENET")
+                    {
+                        string replaceSLOT = "";
+                        string replaceNAME = "DefaultName";
+                        string replaceIP = "192.168.0.1";
+                        string replacedesc = "DefaultDesc";
+                        if (cardsForOutput[0].slot != null)
+                            replaceSLOT = cardsForOutput[0].slot.ToString();
+                        if (cardsForOutput[0].name != null)
+                            replaceNAME = cardsForOutput[0].name;
+                        if (cardsForOutput[0].ipAddress != null)
+                            replaceIP = cardsForOutput[0].ipAddress;
+                        if (cardsForOutput[0].desc != null)
+                            replacedesc = cardsForOutput[0].desc;
+                        string newCard = Cards.mPowerFlex525EENET.Replace("@NAME@", replaceNAME);
+                        newCard = newCard.Replace("@IP@", replaceIP);
+                        newCard = newCard.Replace("@PARENT@", cardsForOutput[0].parent);
+                        newCard = newCard.Replace("@DESC@", replacedesc);
+                        finalOutput = finalOutput + newCard;
+                        finalOutput += Environment.NewLine;
+                        finalOutput += Environment.NewLine;
+                        cardsForOutput.RemoveAt(0);
+                    }
+                else if (cardsForOutput[0].code == "PowerFlex 753-ENETR")
+                {
+                    string replaceSLOT = "";
+                    string replaceNAME = "DefaultName";
+                    string replaceIP = "192.168.0.1";
+                    string replacedesc = "DefaultDesc";
+                    if (cardsForOutput[0].slot != null)
+                        replaceSLOT = cardsForOutput[0].slot.ToString();
+                    if (cardsForOutput[0].name != null)
+                        replaceNAME = cardsForOutput[0].name;
+                    if (cardsForOutput[0].ipAddress != null)
+                        replaceIP = cardsForOutput[0].ipAddress;
+                    if (cardsForOutput[0].desc != null)
+                        replacedesc = cardsForOutput[0].desc;
+                    string newCard = Cards.mPowerFlex753ENETR.Replace("@NAME@", replaceNAME);
+                    newCard = newCard.Replace("@IP@", replaceIP);
+                    newCard = newCard.Replace("@PARENT@", cardsForOutput[0].parent);
+                    newCard = newCard.Replace("@DESC@", replacedesc);
+                    finalOutput = finalOutput + newCard;
+                    finalOutput += Environment.NewLine;
+                    finalOutput += Environment.NewLine;
+                    cardsForOutput.RemoveAt(0);
+                }
+                while (cardsForOutput.Any() && (cardsForOutput[0].code != IOModuleUsed && cardsForOutput[0].code != "PowerFlex 525-EENET" && cardsForOutput[0].code != "PowerFlex 753-ENETR"))
                 {
                     if (cardsForOutput[0].code == "1756-EN2T")
                     {
@@ -777,9 +845,61 @@ namespace L5K_Compiler
             }
         }
 
-        private void commitTreeBtn_Click(object sender, EventArgs e)
+        private void dupeDriveBtn_Click(object sender, EventArgs e)
         {
-            ExtractNodesRecursive(treeIO.Nodes[0]);
+            var selectedTag = treeIO.SelectedNode.Tag as LocalCard;
+            if(selectedTag.type == "drive")
+            {
+                if (selectedTag.ipAddress == null || selectedTag.name == null)
+                {
+                    MessageBox.Show("Error either the IP Address or Name of the Drive selected is invalid. Please corret any mistakes and try again.");
+                    return;
+                }
+                TreeNode newNode = new TreeNode();
+                newNode.Text = treeIO.SelectedNode.Text;
+                newNode.Tag = new LocalCard();
+                var newTag = newNode.Tag as LocalCard;
+                newTag.code = selectedTag.code;
+                newTag.desc = selectedTag.desc;
+                newTag.ipAddress = selectedTag.ipAddress;
+                newTag.moduleList = selectedTag.moduleList;
+                newTag.name = selectedTag.name;
+                newTag.parent = selectedTag.parent;
+                newTag.slot = selectedTag.slot;
+                newTag.type = selectedTag.type;
+                newTag.ipAddress = IncreaseIpIndex(newTag.ipAddress, 1);
+                int motorIndex = Convert.ToInt32(selectedTag.name.Substring(selectedTag.name.Length - 2));
+                motorIndex++;
+                if (motorIndex < 10)
+                    newTag.name = selectedTag.name.Substring(0, (selectedTag.name.Length - 2)) + "0" + motorIndex.ToString();
+                else
+                    newTag.name = selectedTag.name.Substring(0, (selectedTag.name.Length - 2)) + motorIndex.ToString();
+                treeIO.SelectedNode.Parent.Nodes.Add(newNode);
+                newNode.Text = newTag.code + " " + newTag.name;
+                treeIO.SelectedNode = newNode;
+                treeIO.Focus();
+                PropertyEditor editor = new PropertyEditor();
+                editor.ShowDialog();
+                if (confirmedEdit)
+                {
+                        newNode.Text = newTag.code + " " + newTag.name;
+                }
+            }
+            else
+                MessageBox.Show("Error: Cannot duplicate a non-drive node. Please Select a drive-node to use this feature.", "Invalid Node Type", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private string IncreaseIpIndex(string ipGiven, int increaseVal)
+        {
+            string[] splitOctets = ipGiven.ToString().Split('.');
+            int fourth = Convert.ToInt32(splitOctets[3]) + increaseVal;
+            if (fourth > 255)
+            {
+                MessageBox.Show("The increased IP index exceeded 255. Value changed to 255.");
+                fourth = 255;
+            }
+            string ipReturn = (splitOctets[0] + "." + splitOctets[1] + "." + splitOctets[2] + "." + fourth.ToString());
+            return ipReturn;
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -836,6 +956,7 @@ namespace L5K_Compiler
     public class LocalCard
     {
         public List<Module> moduleList = new List<Module>();
+        public string desc = null;
         public string type = null;
         public string name = null;
         public int? slot = null;
