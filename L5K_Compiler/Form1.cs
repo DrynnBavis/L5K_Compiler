@@ -231,9 +231,10 @@ namespace L5K_Compiler
             catch { confirmedAdd = false; }
             if (confirmedAdd)
             {
+                TreeNode parentNode = treeIO.SelectedNode;
                 foreach (string ioBlock in ioToAdd)
                 {
-                    TreeNode tn = treeIO.SelectedNode.Nodes.Add(ioBlock);
+                    TreeNode tn = parentNode.Nodes.Add(ioBlock);
                     treeIO.ShowNodeToolTips = true;
                     var parent = treeIO.SelectedNode.Tag as LocalCard;
                     tn.Tag = new LocalCard();
@@ -629,7 +630,7 @@ namespace L5K_Compiler
                     if (cardsForOutput[0].desc != null)
                         replacedesc = cardsForOutput[0].desc;
                     string newCard = Cards.m1734AENTR.Replace("@SLOT@", replaceSLOT);
-                    newCard = newCard.Replace("@SIZE@", numMods[aentrCount].ToString()); //hopefully this count still works?
+                    newCard = newCard.Replace("@SIZE@", numMods[aentrCount].ToString());
                     newCard = newCard.Replace("@NAME@", replaceNAME);
                     newCard = newCard.Replace("@IP@", replaceIP);
                     newCard = newCard.Replace("@PARENT@", cardsForOutput[0].parent);
@@ -878,12 +879,6 @@ namespace L5K_Compiler
                 newNode.Text = newTag.code + " " + newTag.name;
                 treeIO.SelectedNode = newNode;
                 treeIO.Focus();
-                PropertyEditor editor = new PropertyEditor();
-                editor.ShowDialog();
-                if (confirmedEdit)
-                {
-                        newNode.Text = newTag.code + " " + newTag.name;
-                }
             }
             else
                 MessageBox.Show("Error: Cannot duplicate a non-drive node. Please Select a drive-node to use this feature.", "Invalid Node Type", MessageBoxButtons.OK, MessageBoxIcon.Error);

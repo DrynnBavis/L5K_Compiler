@@ -70,9 +70,9 @@ namespace L5K_Compiler
             {
                 ipAddressControl1.Text = properties.ipAddress;
             }
-            if(descLbl.Enabled)
+            if(label1.Enabled)
             {
-                descLbl.Text = properties.desc;
+                textBox1.Text = properties.desc;
             }
             Form1.confirmedAdd = true;
         }
@@ -128,14 +128,14 @@ namespace L5K_Compiler
                 if (procIsOkay && properties.type == "proc")
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
-                    properties.desc = descLbl.Text;
+                    properties.desc = textBox1.Text;
                     this.Close();
                 }
                 else if (localIsOkay && properties.type == "local")
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
                     properties.ipAddress = ipAddressControl1.Text;
-                    properties.desc = descLbl.Text;
+                    properties.desc = textBox1.Text;
                     if (properties.slot != null)
                         Form1.localSlots[Convert.ToInt32(properties.slot)] = false;
                     Form1.localSlots[newSlotNumber] = true;
@@ -147,7 +147,7 @@ namespace L5K_Compiler
                 {
                     properties.name = nameTxtBox.Text.Replace(" ", "_");
                     properties.ipAddress = ipAddressControl1.Text;
-                    properties.desc = descLbl.Text;
+                    properties.desc = textBox1.Text;
                     if (properties.slot != null)
                         Form1.localSlots[Convert.ToInt32(properties.slot)] = false;
                     Form1.localSlots[newSlotNumber] = true;
@@ -162,6 +162,11 @@ namespace L5K_Compiler
                 MessageBox.Show("Error: Missing property values detected", "Properties Incomplete", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Form1.confirmedEdit = false;
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

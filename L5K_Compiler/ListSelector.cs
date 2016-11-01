@@ -106,5 +106,14 @@ namespace L5K_Compiler
                 MessageBox.Show("No module selected!");
             }
         }
+
+        private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int index = this.listBox1.IndexFromPoint(e.Location);
+            if (index != System.Windows.Forms.ListBox.NoMatches)
+            {
+                addCard(listBox1.Items[index]);
+            }
+        }
     }
 }
